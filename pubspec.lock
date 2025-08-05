@@ -81,6 +81,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.1.2"
+  country_codes_info:
+    dependency: "direct main"
+    description:
+      name: country_codes_info
+      sha256: e074ee02cc182450feac4392743717a9ec0f597edc3f8f62e4d2d2eaeaf6e67a
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.7"
   country_flags:
     dependency: "direct main"
     description:

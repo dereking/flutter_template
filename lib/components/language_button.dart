@@ -4,6 +4,7 @@ import 'package:flutter_template/components/mini_icon_button.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
+import '../l10n/lang_code.dart';
 import '../providers/settings_provider.dart';
 
 class LanguageButton extends StatefulWidget {
@@ -22,7 +23,8 @@ class _LanguageButtonState extends State<LanguageButton> {
       controller: _menuController,
       menuChildren: getLanguageMenuItems(),
       child: MiniIconButton(
-        icon: Icon(Icons.language),
+        icon: Icon(Icons.translate),
+        tooltip: 'Language',
         pressCheckAnimation: false,
         onPressed: () {
           _menuController.open();
@@ -39,18 +41,18 @@ class _LanguageButtonState extends State<LanguageButton> {
         key: Key(e.languageCode),
         child: Row(
           children: [
-            settingsProvider.settings["languageCode"] == e.languageCode
-                ? Icon(Icons.check, size: 16)
-                : Icon(Icons.check_outlined, size: 16),
-            SizedBox(width: 8),
-            CountryFlag.fromLanguageCode(e.languageCode, width: 16, height: 16),
+            CountryFlag.fromLanguageCode(
+              e.languageCode == "zh" ? "zh-cn" : e.languageCode,
+              width: 28,
+              height: 20,
+            ),
 
             SizedBox(width: 8),
-            Text(e.languageCode),
+            Text(langCodeToLangName(e.languageCode)),
           ],
         ),
         onPressed: () {
-          settingsProvider.set("languageCode", e.languageCode);
+          settingsProvider.locale = Locale(e.languageCode);
         },
       );
     }).toList();

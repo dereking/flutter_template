@@ -87,7 +87,7 @@ class _MyAppState extends State<MyApp> {
           // 设置支持的语言列表
           supportedLocales: AppLocalizations.supportedLocales,
 
-          locale: Locale(settingsProvider.settings["languageCode"]),
+          locale: settingsProvider.locale,
           title: AppLocalizations.of(context)?.appTitle ?? 'Listenor',
           theme: getThemeData(
             themeProvider.themeMode,

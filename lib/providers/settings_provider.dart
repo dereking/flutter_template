@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,8 +27,20 @@ class SettingsProvider with ChangeNotifier {
     "ApiBaseURL": "http://127.0.0.1:8080/api/v1",
     "MCPDownloadBaseURL": "https://static.listenor.app/",
   };
+
   Map<String, dynamic> get settings {
     return _settings;
+  }
+
+  Locale _locale = Locale('en', 'US');
+  Locale get locale {
+    return _locale;
+  }
+
+  set locale(Locale value) {
+    _locale = value;
+    notifyListeners();
+    saveItem("languageCode", value.languageCode);
   }
 
   dynamic get(String key) {
