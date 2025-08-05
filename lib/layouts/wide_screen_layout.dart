@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../components/header_user_panel.dart';
 import '../components/top_app_bar.dart';
 import '../components/left_menu_bar/left_menu_bar.dart';
-import '../components/left_menu_bar/left_menu_item.dart'; 
+import '../components/left_menu_bar/left_menu_item.dart';
 import '../pages/default_page.dart';
-import '../providers/app_info_provider.dart'; 
+import '../providers/app_info_provider.dart';
 import 'package:provider/provider.dart';
 
 class WideScreenLayout extends StatefulWidget {
@@ -12,6 +12,7 @@ class WideScreenLayout extends StatefulWidget {
   State<StatefulWidget> createState() => _MainFrameState();
 
   final String title;
+  final Widget? drawer; // 可选的抽屉菜单
   final Map<String, Widget> pages;
   final List<LeftMenuItem> menuItems;
   final List<Widget> actions;
@@ -19,6 +20,7 @@ class WideScreenLayout extends StatefulWidget {
   const WideScreenLayout({
     super.key,
     required this.title,
+    this.drawer,
     required this.pages,
     required this.menuItems,
     this.actions = const [],
@@ -28,7 +30,8 @@ class WideScreenLayout extends StatefulWidget {
 class _MainFrameState extends State<WideScreenLayout> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
+    return Scaffold(
+      drawer: widget.drawer,
       body: Row(
         children: [
           // 左侧图标栏
@@ -46,13 +49,13 @@ class _MainFrameState extends State<WideScreenLayout> {
               children: [
                 TopAppBar(
                   title: widget.title,
-                  actions: const [
-                    HeaderUserPanel(),
-                  ],
+                  actions: const [HeaderUserPanel()],
                 ),
                 Flexible(
-                  child: widget.pages[
-                          Provider.of<AppInfoProvider>(context).curPage] ??
+                  child:
+                      widget.pages[Provider.of<AppInfoProvider>(
+                        context,
+                      ).curPage] ??
                       const DefaultPage(),
                 ),
               ],

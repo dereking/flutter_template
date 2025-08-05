@@ -14,7 +14,9 @@ import './pages/about_page.dart';
 import './pages/settings_page.dart';
 import './providers/app_info_provider.dart';
 import './vars.dart';
-import 'package:provider/provider.dart'; 
+import 'package:provider/provider.dart';
+
+import 'components/left_drawer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,9 +30,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AppInfoProvider.instance), 
-        ChangeNotifierProvider(create: (_) => SettingsProvider.instance), 
-        ChangeNotifierProvider(create: (_) => ThemeProvider.instance), 
+        ChangeNotifierProvider(create: (_) => AppInfoProvider.instance),
+        ChangeNotifierProvider(create: (_) => SettingsProvider.instance),
+        ChangeNotifierProvider(create: (_) => ThemeProvider.instance),
       ],
       child: const MyApp(),
     ),
@@ -57,8 +59,6 @@ class _MyAppState extends State<MyApp> {
     await AppInfoProvider.instance.load();
 
     debugPrint("AppInfoProvider.load done");
- 
- 
 
     //延迟弹出，等主界面显示后。
     Future.delayed(const Duration(milliseconds: 500), () {
@@ -88,8 +88,7 @@ class _MyAppState extends State<MyApp> {
         Locale('zh'), // Chinese
       ],
       title: AppLocalizations.of(context)?.appTitle ?? 'Listenor',
-      theme:
-                getThemeData(themeModel.themeMode, themeModel.themeSeedColor),
+      theme: getThemeData(themeModel.themeMode, themeModel.themeSeedColor),
       // theme: ThemeData(
       //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       //   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -111,9 +110,7 @@ class _MyAppState extends State<MyApp> {
               body: Center(child: CircularProgressIndicator()),
             );
           } else if (snapshot.hasError || (snapshot.data ?? false) == false) {
-            return const Scaffold(
-              body: Center(child: Text('应用初始化失败')),
-            );
+            return const Scaffold(body: Center(child: Text('应用初始化失败')));
           } else {
             return LayoutBuilder(
               builder: (context, constraints) {
@@ -122,11 +119,13 @@ class _MyAppState extends State<MyApp> {
                     title: AppLocalizations.of(context)?.appTitle ?? 'Listenor',
                     pages: _pages,
                     menuItems: getLeftMenuItems(context),
+                    drawer: _drawer,
                   );
                 } else {
                   return MobileScreenLayout(
                     title: AppLocalizations.of(context)?.appTitle ?? 'Listenor',
                     pages: _pages,
+                    drawer: _drawer,
                     menuItems: getLeftMenuItems(context),
                   );
                 }
@@ -138,7 +137,16 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  static const Map<String, Widget> _pages = { 
+  Widget get _drawer {
+    return LeftDrawer(title: 'Test', child: Text("data"),
+      header: Text(
+        'Drawer Header',
+        style: TextStyle(color: Colors.white, fontSize: 24),
+      ),
+    );
+  }
+
+  static const Map<String, Widget> _pages = {
     "/home": DefaultPage(),
     "/settings": SettingsPage(),
     "/about": AboutPage(),
@@ -147,32 +155,33 @@ class _MyAppState extends State<MyApp> {
 
   List<LeftMenuItem> getLeftMenuItems(BuildContext context) {
     final provider = Provider.of<AppInfoProvider>(context);
-    return [ 
+    return [
       LeftMenuItem(
-          icon: provider.curPage == "/home"
-              ? Icons.home
-              : Icons.home_outlined,
-          title: 'Home',
-          active: provider.curPage == "/home",
-          onPressed: () {
-            provider.curPage = '/home';
-          }),
+        icon: provider.curPage == "/home" ? Icons.home : Icons.home_outlined,
+        title: 'Home',
+        active: provider.curPage == "/home",
+        onPressed: () {
+          provider.curPage = '/home';
+        },
+      ),
       LeftMenuItem(
-          icon: provider.curPage == "/settings"
-              ? Icons.settings
-              : Icons.settings_outlined,
-          title: 'Settings',
-          active: provider.curPage == "/settings",
-          onPressed: () {
-            provider.curPage = '/settings';
-          }),
+        icon: provider.curPage == "/settings"
+            ? Icons.settings
+            : Icons.settings_outlined,
+        title: 'Settings',
+        active: provider.curPage == "/settings",
+        onPressed: () {
+          provider.curPage = '/settings';
+        },
+      ),
       LeftMenuItem(
-          icon: provider.curPage == "/about" ? Icons.info : Icons.info_outlined,
-          title: 'About',
-          active: provider.curPage == "/about",
-          onPressed: () {
-            provider.curPage = '/about';
-          }),
+        icon: provider.curPage == "/about" ? Icons.info : Icons.info_outlined,
+        title: 'About',
+        active: provider.curPage == "/about",
+        onPressed: () {
+          provider.curPage = '/about';
+        },
+      ),
     ];
   }
 }

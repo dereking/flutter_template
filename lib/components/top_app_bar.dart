@@ -16,6 +16,8 @@ class TopAppBar extends StatefulWidget {
 class _TopAppBarState extends State<TopAppBar> {
   bool _showSearch = false;
   final FocusNode _searchFocusNode = FocusNode();
+  final TextEditingController _searchEditingController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -30,42 +32,70 @@ class _TopAppBarState extends State<TopAppBar> {
   }
 
   @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    _searchEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: Text(widget.title),
-      elevation: 1, // 取消阴影
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      shadowColor: Theme.of(context).colorScheme.shadow,
-      actions: [
-        if (_showSearch)
-          SizedBox(width: 200,
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
-                  gapPadding: 2,
+    return PreferredSize(
+      preferredSize: Size.fromHeight(32), // 设置高度
+      child: AppBar(
+        title: Text(widget.title),
+        elevation: 1, // 取消阴影
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        shadowColor: Theme.of(context).colorScheme.shadow,
+        actions: [
+          if (_showSearch)
+            SizedBox(
+              width: 200,
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    gapPadding: 2,
+                  ),
+                  suffixIcon: MiniIconButton(
+                    icon: Icon(
+                      Icons.search,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    onPressed: () {
+                      // 处理搜索逻辑
+                      print('Searching for: ${_searchEditingController.text} ');
+                    },
+                  ),
                 ),
+                focusNode: _searchFocusNode,
+                controller: _searchEditingController,
+                onSubmitted: (value) {
+                  // 处理搜索逻辑
+                  print('Searching for: ${_searchEditingController.text} ');
+                },
               ),
-              focusNode: _searchFocusNode,
-              onSubmitted: (value) {
-                // 处理搜索逻辑
-                print('Searching for: $value');
+            ),
+          if (!_showSearch)
+            MiniIconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                setState(() {
+                  _showSearch = !_showSearch;
+                  if (_showSearch) {
+                    _searchFocusNode.requestFocus();
+                  }
+                });
               },
             ),
-          ),
-        MiniIconButton(icon: const Icon(Icons.search), onPressed: () {
-          setState(() {
-            _showSearch = !_showSearch;
-            if (_showSearch) {
-              _searchFocusNode.requestFocus(); 
-            }  
-          });
-        }),
-        ThemeSettingButton(),
-        const HeaderUserPanel(),
-      ],
+          ThemeSettingButton(),
+          const HeaderUserPanel(),
+        ],
+      ),
     );
   }
 }

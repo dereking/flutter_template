@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   final String title;
+  final Widget? drawer; // 可选的抽屉菜单
   final Map<String, Widget> pages;
   final List<LeftMenuItem> menuItems;
 
@@ -16,9 +17,10 @@ class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({
     super.key,
     required this.title,
+    this.drawer,
     required this.pages,
     required this.menuItems,
-    this.actions = const [],
+    this.actions = const [], 
   });
 
   @override
@@ -41,14 +43,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppInfoProvider>(context);
     return Scaffold(
-      drawer: Drawer(
-        child: LeftMenuBar(
-          title: widget.title,
-          isWideScreen: true,
-          menuItems: widget.menuItems,
-          onMenuItemTap: onMenuItemTap,
-        ), //drawer 菜单
-      ),
+      drawer: widget.drawer,
 
       body: Column(
         children: [
