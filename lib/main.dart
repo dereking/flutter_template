@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_template/pages/default_page.dart';
-import 'package:flutter_template/providers/theme_provider.dart';
+import '../pages/default_page.dart';
+import '../providers/theme_provider.dart';
 import '../pages/login_page.dart';
 import '../providers/settings_provider.dart';
 import './components/left_menu_bar/left_menu_item.dart';
@@ -47,9 +47,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool _isInitialized = false;
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
+    _initializeApp();
   }
 
   Future<bool> _initializeApp() async {
@@ -57,17 +61,13 @@ class _MyAppState extends State<MyApp> {
 
     // 初始化应用信息
     await AppInfoProvider.instance.load();
+    await ThemeProvider.instance.load();
 
     debugPrint("AppInfoProvider.load done");
 
-    //延迟弹出，等主界面显示后。
-    Future.delayed(const Duration(milliseconds: 500), () {
-      // RuiApp.rootScaffoldMessengerKey.currentState?.showSnackBar(
-      //   const SnackBar(
-      //     content: Text('应用初始化成功'),
-      //     duration: Duration(seconds: 2),
-      //   ),
-      // );
+    setState(() {
+      _isInitialized = true;
+      _isLoading = false;
     });
 
     return true;
@@ -75,70 +75,58 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final themeModel = Provider.of<ThemeProvider>(context);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'), // English
-        Locale('zh'), // Chinese
-      ],
-      title: AppLocalizations.of(context)?.appTitle ?? 'Listenor',
-      theme: getThemeData(themeModel.themeMode, themeModel.themeSeedColor),
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      //   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      //     selectedItemColor: Colors.deepPurple,
-      //     unselectedItemColor: Colors.grey,
-      //   ),
-      // ),
-      darkTheme: ThemeData.dark().copyWith(
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          selectedItemColor: Colors.lightBlue,
-          unselectedItemColor: Colors.white54,
-        ),
-      ),
-      home: FutureBuilder<bool>(
-        future: _initializeApp(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            );
-          } else if (snapshot.hasError || (snapshot.data ?? false) == false) {
-            return const Scaffold(body: Center(child: Text('应用初始化失败')));
-          } else {
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth > 800) {
-                  return WideScreenLayout(
-                    title: AppLocalizations.of(context)?.appTitle ?? 'Listenor',
-                    pages: _pages,
-                    menuItems: getLeftMenuItems(context),
-                    drawer: _drawer,
-                  );
-                } else {
-                  return MobileScreenLayout(
-                    title: AppLocalizations.of(context)?.appTitle ?? 'Listenor',
-                    pages: _pages,
-                    drawer: _drawer,
-                    menuItems: getLeftMenuItems(context),
-                  );
-                }
-              },
-            );
-          }
-        },
-      ),
+    // final themeModel = Provider.of<ThemeProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+
+          // 设置本地化代理
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          // 设置支持的语言列表
+          supportedLocales: AppLocalizations.supportedLocales,
+
+          locale: Locale(settingsProvider.settings["languageCode"]),
+          title: AppLocalizations.of(context)?.appTitle ?? 'Listenor',
+          theme: getThemeData(
+            themeProvider.themeMode,
+            themeProvider.themeSeedColor,
+          ),
+          home: _isLoading
+              ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+              : LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth > 800) {
+                      return WideScreenLayout(
+                        title:
+                            AppLocalizations.of(context)?.appTitle ??
+                            'Listenor',
+                        pages: _pages,
+                        menuItems: getLeftMenuItems(context),
+                        drawer: _drawer,
+                      );
+                    } else {
+                      return MobileScreenLayout(
+                        title:
+                            AppLocalizations.of(context)?.appTitle ??
+                            'Listenor',
+                        pages: _pages,
+                        drawer: _drawer,
+                        menuItems: getLeftMenuItems(context),
+                      );
+                    }
+                  },
+                ),
+        );
+      },
     );
   }
 
   Widget get _drawer {
-    return LeftDrawer(title: 'Test', child: Text("data"),
+    return LeftDrawer(
+      title: 'Test',
+      child: Text("data"),
       header: Text(
         'Drawer Header',
         style: TextStyle(color: Colors.white, fontSize: 24),

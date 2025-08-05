@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../components/left_menu_bar/left_menu_item.dart'; 
+import '../../components/left_menu_bar/left_menu_item.dart';
 
 class LeftMenuBar extends StatefulWidget {
   final String title;
@@ -49,7 +49,7 @@ class _LeftMenuBarState extends State<LeftMenuBar> {
                         onTap(item);
                       },
                       icon: Icon(item.icon),
-                      tooltip: item.title,
+                      tooltip: item.tooltip ?? item.title,
                       isSelected: item.active,
                     ),
                   );
@@ -71,9 +71,7 @@ class _LeftMenuBarState extends State<LeftMenuBar> {
   Widget _buildDrawerHeader() {
     if (widget.isWideScreen) {
       return DrawerHeader(
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-        ),
+        decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         child: Row(
           children: [
             CircleAvatar(
@@ -103,9 +101,7 @@ class _LeftMenuBarState extends State<LeftMenuBar> {
       height: miniModeWidth,
       padding: EdgeInsetsGeometry.zero,
       margin: const EdgeInsets.all(0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-      ),
+      decoration: BoxDecoration(color: Theme.of(context).primaryColor),
       child: const Icon(Icons.headphones),
     );
   }

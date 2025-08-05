@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
- 
 
 class ProfileItem {
   final String title;
@@ -9,11 +6,12 @@ class ProfileItem {
   final IconData icon;
   final Function onTap;
 
-  ProfileItem(
-      {required this.title,
-      required this.value,
-      required this.icon,
-      required this.onTap});
+  ProfileItem({
+    required this.title,
+    required this.value,
+    required this.icon,
+    required this.onTap,
+  });
 }
 
 class LoginStatusPanel extends StatefulWidget {
@@ -67,32 +65,44 @@ class _LoginStatusPanelState extends State<LoginStatusPanel> {
   void initState() {
     super.initState();
     if (widget.userEmail != null) {
-      profileItems.add(ProfileItem(
+      profileItems.add(
+        ProfileItem(
           title: "email",
           value: widget.userEmail!,
           icon: Icons.email,
-          onTap: () {}));
+          onTap: () {},
+        ),
+      );
     }
     if (widget.userPhone != null) {
-      profileItems.add(ProfileItem(
+      profileItems.add(
+        ProfileItem(
           title: "Phone",
           value: widget.userPhone!,
           icon: Icons.phone,
-          onTap: () {}));
+          onTap: () {},
+        ),
+      );
     }
     if (widget.userAddress != null) {
-      profileItems.add(ProfileItem(
+      profileItems.add(
+        ProfileItem(
           title: "Address",
           value: widget.userAddress!,
           icon: Icons.location_on_outlined,
-          onTap: () {}));
+          onTap: () {},
+        ),
+      );
     }
     if (widget.userBirthday != null) {
-      profileItems.add(ProfileItem(
+      profileItems.add(
+        ProfileItem(
           title: "Birthday",
           value: widget.userBirthday!,
           icon: Icons.date_range_outlined,
-          onTap: () {}));
+          onTap: () {},
+        ),
+      );
     }
   }
 
@@ -102,26 +112,22 @@ class _LoginStatusPanelState extends State<LoginStatusPanel> {
       offset: const Offset(0, 50),
       child: Row(
         children: [
-          const SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           CircleAvatar(
             radius: 16,
-            backgroundImage: NetworkImage(widget.userImage ??
-                'https://static.vecteezy.com/system/resources/previews/005/176/777/large_2x/user-avatar-line-style-free-vector.jpg'),
+            backgroundImage: NetworkImage(
+              widget.userImage ??
+                  'https://static.vecteezy.com/system/resources/previews/005/176/777/large_2x/user-avatar-line-style-free-vector.jpg',
+            ),
           ),
-          const SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           SizedBox(
             child: Text(
               'Hi, ${widget.userName}',
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          const SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           const Icon(Icons.arrow_drop_down),
         ],
       ),
@@ -141,22 +147,21 @@ class _LoginStatusPanelState extends State<LoginStatusPanel> {
                     width: TOP_AVATAR_HEIGHT,
                     child: CircleAvatar(
                       radius: TOP_AVATAR_HEIGHT,
-                      backgroundImage: NetworkImage(widget.userImage ??
-                          'https://static.vecteezy.com/system/resources/previews/005/176/777/large_2x/user-avatar-line-style-free-vector.jpg'),
+                      backgroundImage: NetworkImage(
+                        widget.userImage ??
+                            'https://static.vecteezy.com/system/resources/previews/005/176/777/large_2x/user-avatar-line-style-free-vector.jpg',
+                      ),
                     ),
                   ),
                   Expanded(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Hi, ${widget.userName}',
-                      ),
-                      Text(
-                        '${widget.userGender}',
-                      ),
-                    ],
-                  )),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Hi, ${widget.userName}'),
+                        Text('${widget.userGender}'),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -170,15 +175,9 @@ class _LoginStatusPanelState extends State<LoginStatusPanel> {
               children: [
                 Icon(e.value.icon),
                 const SizedBox(width: 5),
-                SizedBox(
-                  width: LABEL_WIDTH,
-                  child: Text(e.value.title),
-                ),
+                SizedBox(width: LABEL_WIDTH, child: Text(e.value.title)),
                 Expanded(
-                  child: Text(
-                    e.value.value,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  child: Text(e.value.value, overflow: TextOverflow.ellipsis),
                 ),
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/components/mini_icon_button.dart';
 import 'package:flutter_template/components/theme_setting_button.dart';
 import '../components/header_user_panel.dart';
+import 'language_button.dart';
 
 class TopAppBar extends StatefulWidget {
   final String title;
@@ -92,6 +93,7 @@ class _TopAppBarState extends State<TopAppBar> {
                 });
               },
             ),
+          LanguageButton(),
           ThemeSettingButton(),
           const HeaderUserPanel(),
         ],

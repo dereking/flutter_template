@@ -23,11 +23,22 @@ class SettingsProvider with ChangeNotifier {
   }
 
   Map<String, dynamic> _settings = {
+    "languageCode": "en_US",
     "ApiBaseURL": "http://127.0.0.1:8080/api/v1",
-    "MCPDownloadBaseURL": "https://static.listenor.app/", 
+    "MCPDownloadBaseURL": "https://static.listenor.app/",
   };
   Map<String, dynamic> get settings {
     return _settings;
+  }
+
+  dynamic get(String key) {
+    return _settings[key];
+  }
+
+  void set(String key, dynamic value) {
+    _settings[key] = value;
+    notifyListeners();
+    saveItem(key, value);
   }
 
   Future<void> load() async {
@@ -52,32 +63,21 @@ class SettingsProvider with ChangeNotifier {
       debugPrint("settingsProvider loadSettings Error:  ${e.toString()}");
     }
   }
- 
 
-  String getMCPDownloadURL(String mcpName,String version) { 
-
-    // 获取操作系统类型
-    String os = Platform.isWindows
-        ? 'windows'
-        : Platform.isMacOS
-            ? 'darwin'
-            : Platform.isLinux
-                ? 'linux'
-                : 'windows';
-
-    // 获取CPU架构
-    String architect = Platform.version.contains('arm')
-        ? 'arm64'
-        : Platform.version.contains('x86')
-            ? 'x86'
-            : 'amd64';
-
-    //https://static.listenor.app/mcp/mcpmath/1.0.0/mcpmath_1.0.0_darwin_amd64.zip
-    return "${_settings['MCPDownloadBaseURL']}mcp/$mcpName/$version/${mcpName}_${version}_${os}_$architect.zip";
+  Future<void> save() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    for (var key in _settings.keys) {
+      await prefs.setString('settings-$key', json.encode(_settings[key]));
+    }
   }
 
-  String getAPIBaseUrl() {
-    print("$getAPIBaseUrl ${_settings["ApiBaseURL"]}");
-    return _settings["ApiBaseURL"];
+  Future<void> saveItem(String key, dynamic value) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      // 保存设置到 SharedPreferences
+      await prefs.setString('settings-$key', json.encode(value));
+    } catch (e) {
+      debugPrint("settingsProvider saveSettings Error:  ${e.toString()}");
+    }
   }
 }

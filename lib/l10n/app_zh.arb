@@ -1,5 +1,5 @@
 {
-  "@@locale": "zh", 
+  "@@locale": "zh",
   "appTitle": "Listenor",
   "appDescription": "Listenor 是一个强大的工具，用于管理和互动您的音频内容。",
   "settings": "设置",
@@ -17,6 +17,12 @@
   "save": "保存",
   "cancel": "取消",
   "loading": "加载中...",
+  "login": "登录",
+  "logout": "退出",
+  "register": "注册",
+  "email": "邮箱",
+  "password": "密码",
+  "confirmPassword": "确认密码",
   "error": "错误",
   "noData": "没有可用数据",
   "retry": "重试",
@@ -30,5 +36,5 @@
   "clear": "清除",
   "add": "添加",
   "edit": "编辑",
-  "update": "更新" 
+  "update": "更新"
 }

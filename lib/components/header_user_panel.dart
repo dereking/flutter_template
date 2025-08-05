@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/l10n/app_localizations.dart';
 import '../providers/app_info_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ class _HeaderUserPanelState extends State<HeaderUserPanel> {
     if (provider.loggedInUser == null) {
       return TextButton(
         onPressed: login,
-        child: const Text('Login'),
+        child: Text(AppLocalizations.of(context)!.login),
       );
     }
     return Tooltip(
@@ -24,10 +25,7 @@ class _HeaderUserPanelState extends State<HeaderUserPanel> {
       child: InkWell(
         onTap: () {},
         child: Row(
-          children: [
-            _buildAvatar(),
-            Text(provider.loggedInUser!.name),
-          ],
+          children: [_buildAvatar(), Text(provider.loggedInUser!.name)],
         ),
       ),
     );

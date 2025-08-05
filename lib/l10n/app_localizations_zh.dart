@@ -60,6 +60,24 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loading => '加载中...';
 
   @override
+  String get login => '登录';
+
+  @override
+  String get logout => '退出';
+
+  @override
+  String get register => '注册';
+
+  @override
+  String get email => '邮箱';
+
+  @override
+  String get password => '密码';
+
+  @override
+  String get confirmPassword => '确认密码';
+
+  @override
   String get error => '错误';
 
   @override

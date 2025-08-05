@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/default_page.dart';
 import '../components/top_app_bar.dart';
-import '../components/left_menu_bar/left_menu_bar.dart';
 import '../providers/app_info_provider.dart';
 import '../components/left_menu_bar/left_menu_item.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,7 @@ class MobileScreenLayout extends StatefulWidget {
     this.drawer,
     required this.pages,
     required this.menuItems,
-    this.actions = const [], 
+    this.actions = const [],
   });
 
   @override
@@ -62,6 +61,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           return BottomNavigationBarItem(
             icon: Icon(item.icon),
             label: item.title,
+            tooltip: item.tooltip ?? item.title,
           );
         }).toList(), // 动态生成底部导航栏项
         //  const [

@@ -17,6 +17,12 @@
   "save": "Save",
   "cancel": "Cancel",
   "loading": "Loading...",
+  "login": "Login",
+  "logout": "Logout",
+  "register": "Register",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
   "error": "Error",
   "noData": "No data available",
   "retry": "Retry",
@@ -30,5 +36,5 @@
   "clear": "Clear",
   "add": "Add",
   "edit": "Edit",
-  "update": "Update" 
+  "update": "Update"
 }

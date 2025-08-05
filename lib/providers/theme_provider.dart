@@ -22,6 +22,17 @@ class ThemeProvider with ChangeNotifier {
     return _instance!;
   }
 
+  Future<bool> load() async {
+    _themeSeedColor =
+        await StorageService().getString('seedColor') ?? 'blueGrey';
+
+    _themeMode =
+        (await StorageService().getString("themeMode") ?? "system") == "system"
+        ? ThemeMode.system
+        : ThemeMode.light;
+    return true;
+  }
+
   void setThemeProvider(ThemeProvider tm) {
     _themeMode = tm.themeMode;
     _themeSeedColor = tm.themeSeedColor;
