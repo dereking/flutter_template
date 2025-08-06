@@ -46,13 +46,15 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     return Scaffold(
       drawer: widget.drawer,
       endDrawer: widget.endDrawer,
-      body: Column(
-        children: [
-          TopAppBar(title: widget.title),
-          Flexible(
-            child: widget.pages[provider.curPage] ?? const DefaultPage(),
-          ),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            TopAppBar(title: widget.title),
+            Flexible(
+              child: widget.pages[provider.curPage] ?? const DefaultPage(),
+            ),
+          ],
+        ),
       ), // 根据当前页面显示内容
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,

@@ -102,152 +102,158 @@ class _LoginPageState extends State<LoginPage> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Card(
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          _isLogin
-                              ? AppLocalizations.of(context)!.login
-                              : AppLocalizations.of(context)!.register,
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                        const SizedBox(height: 24),
-                        Form(
-                          key: _formKey,
-                          child: Column(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Card(
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+
+                        children: [
+                          Text(
+                            _isLogin
+                                ? AppLocalizations.of(context)!.login
+                                : AppLocalizations.of(context)!.register,
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                          const SizedBox(height: 24),
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: _emailController,
+                                  decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(
+                                      context,
+                                    )!.email,
+                                    prefixIcon: Icon(Icons.email),
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return AppLocalizations.of(
+                                        context,
+                                      )!.pleaseInputEmailAddress;
+                                    }
+                                    if (!RegExp(
+                                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                    ).hasMatch(value)) {
+                                      return AppLocalizations.of(
+                                        context,
+                                      )!.pleaseInputValidEmailAddress;
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                TextFormField(
+                                  controller: _passwordController,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(
+                                      context,
+                                    )!.password,
+                                    prefixIcon: Icon(Icons.lock),
+                                  ),
+                                  keyboardType: TextInputType.visiblePassword,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return AppLocalizations.of(
+                                        context,
+                                      )!.pleaseInputPassword;
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                const SizedBox(height: 16),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: _isLoading
+                                        ? null
+                                        : _handleEmailAuth,
+                                    child: _isLoading
+                                        ? const CircularProgressIndicator()
+                                        : Text(
+                                            _isLogin
+                                                ? AppLocalizations.of(
+                                                    context,
+                                                  )!.login
+                                                : AppLocalizations.of(
+                                                    context,
+                                                  )!.register,
+                                          ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _isLogin = !_isLogin;
+                                    });
+                                  },
+                                  child: Text(
+                                    _isLogin
+                                        ? AppLocalizations.of(
+                                            context,
+                                          )!.noAccount
+                                        : AppLocalizations.of(
+                                            context,
+                                          )!.haveAccount,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Divider(height: 32),
+                          Text(
+                            AppLocalizations.of(context)!.orLoginWithThose,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              TextFormField(
-                                controller: _emailController,
-                                decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(
-                                    context,
-                                  )!.email,
-                                  prefixIcon: Icon(Icons.email),
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return AppLocalizations.of(
-                                      context,
-                                    )!.pleaseInputEmailAddress;
-                                  }
-                                  if (!RegExp(
-                                    r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                                  ).hasMatch(value)) {
-                                    return AppLocalizations.of(
-                                      context,
-                                    )!.pleaseInputValidEmailAddress;
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 16),
-                              TextFormField(
-                                controller: _passwordController,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(
-                                    context,
-                                  )!.password,
-                                  prefixIcon: Icon(Icons.lock),
-                                ),
-                                keyboardType: TextInputType.visiblePassword,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return AppLocalizations.of(
-                                      context,
-                                    )!.pleaseInputPassword;
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 16),
-                              const SizedBox(height: 16),
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: _isLoading
-                                      ? null
-                                      : _handleEmailAuth,
-                                  child: _isLoading
-                                      ? const CircularProgressIndicator()
-                                      : Text(
-                                          _isLogin
-                                              ? AppLocalizations.of(
-                                                  context,
-                                                )!.login
-                                              : AppLocalizations.of(
-                                                  context,
-                                                )!.register,
-                                        ),
+                              // _buildSocialButton(
+                              //   icon: FontAwesomeIcons.google,
+                              //   color: Colors.red,
+                              //   onPressed: () => _handleSocialAuth(
+                              //     _authService.signInWithGoogle,
+                              //   ),
+                              // ),
+                              // _buildSocialButton(
+                              //   icon: FontAwesomeIcons.facebook,
+                              //   color: Colors.blue,
+                              //   onPressed: () => _handleSocialAuth(
+                              //     _authService.signInWithFacebook,
+                              //   ),
+                              // ),
+                              _buildSocialButton(
+                                icon: FontAwesomeIcons.microsoft,
+                                color: Colors.grey,
+                                onPressed: () => _handleSocialAuth(
+                                  _authService.signInWithMicrosoft,
                                 ),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isLogin = !_isLogin;
-                                  });
-                                },
-                                child: Text(
-                                  _isLogin
-                                      ? AppLocalizations.of(context)!.noAccount
-                                      : AppLocalizations.of(
-                                          context,
-                                        )!.haveAccount,
+                              _buildSocialButton(
+                                icon: FontAwesomeIcons.apple,
+                                color: Colors.black,
+                                onPressed: () => _handleSocialAuth(
+                                  _authService.signInWithApple,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        const Divider(height: 32),
-                        Text(
-                          AppLocalizations.of(context)!.orLoginWithThose  ,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // _buildSocialButton(
-                            //   icon: FontAwesomeIcons.google,
-                            //   color: Colors.red,
-                            //   onPressed: () => _handleSocialAuth(
-                            //     _authService.signInWithGoogle,
-                            //   ),
-                            // ),
-                            // _buildSocialButton(
-                            //   icon: FontAwesomeIcons.facebook,
-                            //   color: Colors.blue,
-                            //   onPressed: () => _handleSocialAuth(
-                            //     _authService.signInWithFacebook,
-                            //   ),
-                            // ),
-                            _buildSocialButton(
-                              icon: FontAwesomeIcons.microsoft,
-                              color: Colors.grey,
-                              onPressed: () => _handleSocialAuth(
-                                _authService.signInWithMicrosoft,
-                              ),
-                            ),
-                            _buildSocialButton(
-                              icon: FontAwesomeIcons.apple,
-                              color: Colors.black,
-                              onPressed: () => _handleSocialAuth(
-                                  _authService.signInWithApple,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
