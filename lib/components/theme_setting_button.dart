@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/l10n/app_localizations.dart';
 import '../components/mini_icon_button.dart';
 import '../providers/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -94,6 +95,7 @@ class ThemeSettingButton extends StatelessWidget {
                   controller.open();
                 }
               },
+              tooltip: AppLocalizations.of(context)!.theme,
               icon: const Icon(Icons.palette),
             );
           },

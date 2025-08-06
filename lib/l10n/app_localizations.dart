@@ -95,227 +95,287 @@ abstract class AppLocalizations {
     Locale('zh')
   ];
 
-  /// No description provided for @appTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Listenor'**
-  String get appTitle;
-
-  /// No description provided for @appDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Listenor is a powerful tool for managing and interacting with your audio content.'**
-  String get appDescription;
-
-  /// No description provided for @settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
-
-  /// No description provided for @about.
+  /// Label for about section
   ///
   /// In en, this message translates to:
   /// **'About'**
   String get about;
 
-  /// No description provided for @help.
-  ///
-  /// In en, this message translates to:
-  /// **'Help'**
-  String get help;
-
-  /// No description provided for @version.
-  ///
-  /// In en, this message translates to:
-  /// **'Version'**
-  String get version;
-
-  /// No description provided for @language.
-  ///
-  /// In en, this message translates to:
-  /// **'Language'**
-  String get language;
-
-  /// No description provided for @theme.
-  ///
-  /// In en, this message translates to:
-  /// **'Theme'**
-  String get theme;
-
-  /// No description provided for @darkMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Dark Mode'**
-  String get darkMode;
-
-  /// No description provided for @lightMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Light Mode'**
-  String get lightMode;
-
-  /// No description provided for @systemDefault.
-  ///
-  /// In en, this message translates to:
-  /// **'System Default'**
-  String get systemDefault;
-
-  /// No description provided for @notifications.
-  ///
-  /// In en, this message translates to:
-  /// **'Notifications'**
-  String get notifications;
-
-  /// No description provided for @enableNotifications.
-  ///
-  /// In en, this message translates to:
-  /// **'Enable Notifications'**
-  String get enableNotifications;
-
-  /// No description provided for @disableNotifications.
-  ///
-  /// In en, this message translates to:
-  /// **'Disable Notifications'**
-  String get disableNotifications;
-
-  /// No description provided for @save.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get save;
-
-  /// No description provided for @cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancel;
-
-  /// No description provided for @loading.
-  ///
-  /// In en, this message translates to:
-  /// **'Loading...'**
-  String get loading;
-
-  /// No description provided for @login.
-  ///
-  /// In en, this message translates to:
-  /// **'Login'**
-  String get login;
-
-  /// No description provided for @logout.
-  ///
-  /// In en, this message translates to:
-  /// **'Logout'**
-  String get logout;
-
-  /// No description provided for @register.
-  ///
-  /// In en, this message translates to:
-  /// **'Register'**
-  String get register;
-
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
-  /// No description provided for @password.
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get password;
-
-  /// No description provided for @confirmPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm Password'**
-  String get confirmPassword;
-
-  /// No description provided for @error.
-  ///
-  /// In en, this message translates to:
-  /// **'Error'**
-  String get error;
-
-  /// No description provided for @noData.
-  ///
-  /// In en, this message translates to:
-  /// **'No data available'**
-  String get noData;
-
-  /// No description provided for @retry.
-  ///
-  /// In en, this message translates to:
-  /// **'Retry'**
-  String get retry;
-
-  /// No description provided for @success.
-  ///
-  /// In en, this message translates to:
-  /// **'Success'**
-  String get success;
-
-  /// No description provided for @delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete'**
-  String get delete;
-
-  /// No description provided for @confirmDelete.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this?'**
-  String get confirmDelete;
-
-  /// No description provided for @yes.
-  ///
-  /// In en, this message translates to:
-  /// **'Yes'**
-  String get yes;
-
-  /// No description provided for @no.
-  ///
-  /// In en, this message translates to:
-  /// **'No'**
-  String get no;
-
-  /// No description provided for @search.
-  ///
-  /// In en, this message translates to:
-  /// **'Search'**
-  String get search;
-
-  /// No description provided for @searchPlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'Search...'**
-  String get searchPlaceholder;
-
-  /// No description provided for @clear.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear'**
-  String get clear;
-
-  /// No description provided for @add.
+  /// Label for add action
   ///
   /// In en, this message translates to:
   /// **'Add'**
   String get add;
 
-  /// No description provided for @edit.
+  /// Main description of the application
+  ///
+  /// In en, this message translates to:
+  /// **'Listenor is a powerful tool for managing and interacting with your audio content.'**
+  String get appDescription;
+
+  /// The application name
+  ///
+  /// In en, this message translates to:
+  /// **'Listenor'**
+  String get appTitle;
+
+  /// Label for cancel action
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Label for clear action
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// Confirmation message before deletion
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this?'**
+  String get confirmDelete;
+
+  /// Label for password confirmation field
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// Label for dark mode theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkMode;
+
+  /// Label for delete action
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Label for disabling notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Disable Notifications'**
+  String get disableNotifications;
+
+  /// Label for edit action
   ///
   /// In en, this message translates to:
   /// **'Edit'**
   String get edit;
 
-  /// No description provided for @update.
+  /// Label for email field
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// Label for enabling notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Notifications'**
+  String get enableNotifications;
+
+  /// Generic error message
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// Prompt for login action
+  ///
+  /// In en, this message translates to:
+  /// **'Have an account? Login'**
+  String get haveAccount;
+
+  /// Label for help section
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get help;
+
+  /// Label for home section
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// Label for language settings
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Label for light mode theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get lightMode;
+
+  /// Loading state message
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// Label for login action
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// Label for login or sign up action
+  ///
+  /// In en, this message translates to:
+  /// **'Login / Sign up'**
+  String get loginOrSignUp;
+
+  /// Label for logout action
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// Label for more actions menu
+  ///
+  /// In en, this message translates to:
+  /// **'More Actions'**
+  String get moreAction;
+
+  /// Negative response
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// Prompt for sign up action
+  ///
+  /// In en, this message translates to:
+  /// **'No account? Sign up'**
+  String get noAccount;
+
+  /// Message shown when no data is available
+  ///
+  /// In en, this message translates to:
+  /// **'No data available'**
+  String get noData;
+
+  /// Label for notifications section
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// Prompt for login with other accounts
+  ///
+  /// In en, this message translates to:
+  /// **'Or login with those accounts'**
+  String get orLoginWithThose;
+
+  /// Label for password field
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// Label for register action
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// Label for retry action
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// Label for save action
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// Label for search action
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// Placeholder text for search input
+  ///
+  /// In en, this message translates to:
+  /// **'Search...'**
+  String get searchPlaceholder;
+
+  /// Label for settings section
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// Success message
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
+
+  /// Label for system default theme option
+  ///
+  /// In en, this message translates to:
+  /// **'System Default'**
+  String get systemDefault;
+
+  /// Label for theme settings
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// Prompt for email address input
+  ///
+  /// In en, this message translates to:
+  /// **'Please input email address'**
+  String get pleaseInputEmailAddress;
+
+  /// Prompt for valid email address input
+  ///
+  /// In en, this message translates to:
+  /// **'Please input valid email address'**
+  String get pleaseInputValidEmailAddress;
+
+  /// Prompt for password input
+  ///
+  /// In en, this message translates to:
+  /// **'Please input password'**
+  String get pleaseInputPassword;
+
+  /// Prompt for valid password input
+  ///
+  /// In en, this message translates to:
+  /// **'Please input valid password'**
+  String get pleaseInputValidPassword;
+
+  /// Label for update action
   ///
   /// In en, this message translates to:
   /// **'Update'**
   String get update;
+
+  /// Label for version information
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
+
+  /// Positive response
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

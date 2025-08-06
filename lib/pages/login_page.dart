@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../providers/app_info_provider.dart';
+import 'package:flutter_template/l10n/app_localizations.dart';
+import '../providers/user_provider.dart';
 import '../services/auth_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
 
       try {
         if (_isLogin) {
-          Navigator.pushReplacementNamed(context, "/chat");
+          Provider.of<UserProvider>(context, listen: false).navigateTo("/home");
         } else {
           // final AuthRegisterPost200Response? res =
           //     await _authService.signUpWithEmail(
@@ -47,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
           // if (res == null || res.code != 200) {
           //   _showError(res == null ? "" : res.message ?? "");
           // }
-          // Provider.of<AppInfoProvider>(context, listen: false).user = res!.data;
+          // Provider.of<UserProvider>(context, listen: false).user = res!.data;
           // _showSuccess(res.message!);
         }
 
@@ -67,7 +68,8 @@ class _LoginPageState extends State<LoginPage> {
       final result = await authMethod();
       if (result['success']) {
         _showSuccess(result['message']);
-        Navigator.pushReplacementNamed(context, "/chat");
+        // Provider.of<UserProvider>(context, listen: false).loggedInUser = {"name":"ked"};
+        Provider.of<UserProvider>(context, listen: false).navigateTo("/home");
       } else {
         _showError(result['message']);
       }
@@ -113,7 +115,9 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          _isLogin ? '欢迎回来' : '创建账号',
+                          _isLogin
+                              ? AppLocalizations.of(context)!.login
+                              : AppLocalizations.of(context)!.register,
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         const SizedBox(height: 24),
@@ -123,19 +127,25 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               TextFormField(
                                 controller: _emailController,
-                                decoration: const InputDecoration(
-                                  labelText: '电子邮箱',
+                                decoration: InputDecoration(
+                                  labelText: AppLocalizations.of(
+                                    context,
+                                  )!.email,
                                   prefixIcon: Icon(Icons.email),
                                 ),
                                 keyboardType: TextInputType.emailAddress,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return '请输入电子邮箱';
+                                    return AppLocalizations.of(
+                                      context,
+                                    )!.pleaseInputEmailAddress;
                                   }
                                   if (!RegExp(
                                     r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                                   ).hasMatch(value)) {
-                                    return '请输入有效的电子邮箱';
+                                    return AppLocalizations.of(
+                                      context,
+                                    )!.pleaseInputValidEmailAddress;
                                   }
                                   return null;
                                 },
@@ -144,20 +154,19 @@ class _LoginPageState extends State<LoginPage> {
                               TextFormField(
                                 controller: _passwordController,
                                 obscureText: true,
-                                decoration: const InputDecoration(
-                                  labelText: 'Password',
+                                decoration: InputDecoration(
+                                  labelText: AppLocalizations.of(
+                                    context,
+                                  )!.password,
                                   prefixIcon: Icon(Icons.lock),
                                 ),
                                 keyboardType: TextInputType.visiblePassword,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Input password';
+                                    return AppLocalizations.of(
+                                      context,
+                                    )!.pleaseInputPassword;
                                   }
-                                  // if (!RegExp(
-                                  //         r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                  //     .hasMatch(value)) {
-                                  //   return '请输入有效的电子邮箱';
-                                  // }
                                   return null;
                                 },
                               ),
@@ -171,7 +180,15 @@ class _LoginPageState extends State<LoginPage> {
                                       : _handleEmailAuth,
                                   child: _isLoading
                                       ? const CircularProgressIndicator()
-                                      : Text(_isLogin ? '登录' : '注册'),
+                                      : Text(
+                                          _isLogin
+                                              ? AppLocalizations.of(
+                                                  context,
+                                                )!.login
+                                              : AppLocalizations.of(
+                                                  context,
+                                                )!.register,
+                                        ),
                                 ),
                               ),
                               TextButton(
@@ -181,7 +198,11 @@ class _LoginPageState extends State<LoginPage> {
                                   });
                                 },
                                 child: Text(
-                                  _isLogin ? '没有账号？立即注册' : '已有账号？立即登录',
+                                  _isLogin
+                                      ? AppLocalizations.of(context)!.noAccount
+                                      : AppLocalizations.of(
+                                          context,
+                                        )!.haveAccount,
                                 ),
                               ),
                             ],
@@ -189,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const Divider(height: 32),
                         Text(
-                          '或使用以下方式登录',
+                          AppLocalizations.of(context)!.orLoginWithThose  ,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const SizedBox(height: 16),
@@ -217,13 +238,13 @@ class _LoginPageState extends State<LoginPage> {
                                 _authService.signInWithMicrosoft,
                               ),
                             ),
-                            // _buildSocialButton(
-                            //   icon: FontAwesomeIcons.apple,
-                            //   color: Colors.black,
-                            //   onPressed: () => _handleSocialAuth(
-                            //     _authService.signInWithApple,
-                            //   ),
-                            // ),
+                            _buildSocialButton(
+                              icon: FontAwesomeIcons.apple,
+                              color: Colors.black,
+                              onPressed: () => _handleSocialAuth(
+                                  _authService.signInWithApple,
+                              ),
+                            ),
                           ],
                         ),
                       ],

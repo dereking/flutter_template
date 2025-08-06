@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_template/services/storage_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsProvider with ChangeNotifier {
@@ -22,72 +23,32 @@ class SettingsProvider with ChangeNotifier {
     return _instance!;
   }
 
-  Map<String, dynamic> _settings = {
-    "languageCode": "en_US",
-    "ApiBaseURL": "http://127.0.0.1:8080/api/v1",
-    "MCPDownloadBaseURL": "https://static.listenor.app/",
-  };
-
-  Map<String, dynamic> get settings {
-    return _settings;
-  }
-
+  // 语言设置
   Locale _locale = Locale('en', 'US');
-  Locale get locale {
-    return _locale;
-  }
-
+  Locale get locale => _locale;
   set locale(Locale value) {
     _locale = value;
     notifyListeners();
-    saveItem("languageCode", value.languageCode);
-  }
-
-  dynamic get(String key) {
-    return _settings[key];
-  }
-
-  void set(String key, dynamic value) {
-    _settings[key] = value;
-    notifyListeners();
-    saveItem(key, value);
+    StorageService().set<Locale>("locale", value);
   }
 
   Future<void> load() async {
     try {
-      if (kDebugMode) {
-        print("settingsProvider loadSettings $_settings");
-      }
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      // 从 SharedPreferences 中加载设置
-      final String? settings = prefs.getString('settings');
-      if (settings != null) {
-        String settings = (prefs.getString('settings')) ?? '{}';
-        // 解析设置并更新状态
-        _settings = Map<String, dynamic>.from(json.decode(settings));
-        notifyListeners();
-      }
+      _locale = await StorageService().get<Locale>(
+        "locale",
+        Locale('en', 'US'),
+      );
 
-      if (kDebugMode) {
-        print("settingsProvider loadSettings $_settings");
-      }
+      notifyListeners();
     } catch (e) {
       debugPrint("settingsProvider loadSettings Error:  ${e.toString()}");
     }
   }
 
   Future<void> save() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    for (var key in _settings.keys) {
-      await prefs.setString('settings-$key', json.encode(_settings[key]));
-    }
-  }
-
-  Future<void> saveItem(String key, dynamic value) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      // 保存设置到 SharedPreferences
-      await prefs.setString('settings-$key', json.encode(value));
+      // 保存语言设置
+      await StorageService().set<Locale>("locale", _locale);
     } catch (e) {
       debugPrint("settingsProvider saveSettings Error:  ${e.toString()}");
     }

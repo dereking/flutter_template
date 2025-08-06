@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
+import '../../providers/user_provider.dart';
+import 'package:provider/provider.dart';
 class ProfileItem {
   final String title;
   final String value;
@@ -14,7 +17,7 @@ class ProfileItem {
   });
 }
 
-class LoginStatusPanel extends StatefulWidget {
+class LoginStatusDropdownButton extends StatefulWidget {
   final String userName;
   final String? userImage;
   final String? userEmail;
@@ -29,10 +32,11 @@ class LoginStatusPanel extends StatefulWidget {
   final DateTime? userDeletedAt;
   final DateTime? userLastLogin;
   final DateTime? userLastLogout;
-  Function? onTapLogout;
+  final Function()? onTapLogin;
+  final Function()? onTapLogout;
 
-  LoginStatusPanel({
-    Key? key,
+  const LoginStatusDropdownButton({
+    super.key,
     required this.userName,
     this.userImage,
     this.userEmail,
@@ -47,17 +51,17 @@ class LoginStatusPanel extends StatefulWidget {
     this.userDeletedAt,
     this.userLastLogin,
     this.userLastLogout,
+    this.onTapLogin,
     this.onTapLogout,
-  }) : super(key: key);
+  });
 
   @override
-  _LoginStatusPanelState createState() => _LoginStatusPanelState();
+  State<LoginStatusDropdownButton> createState() => _LoginStatusDropdownButtonState();
 }
 
-class _LoginStatusPanelState extends State<LoginStatusPanel> {
+class _LoginStatusDropdownButtonState extends State<LoginStatusDropdownButton> {
   List<ProfileItem> profileItems = [];
-
-  bool _showPanel = false;
+ 
   static const double LABEL_WIDTH = 80;
   static const double TOP_AVATAR_HEIGHT = 80;
 
@@ -108,6 +112,13 @@ class _LoginStatusPanelState extends State<LoginStatusPanel> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.userName.isEmpty) {
+      return TextButton(
+        onPressed: widget.onTapLogin,
+        child: Text(AppLocalizations.of(context)!.loginOrSignUp),
+      );
+    }
+    
     return PopupMenuButton(
       offset: const Offset(0, 50),
       child: Row(
@@ -115,15 +126,16 @@ class _LoginStatusPanelState extends State<LoginStatusPanel> {
           const SizedBox(width: 10),
           CircleAvatar(
             radius: 16,
-            backgroundImage: NetworkImage(
-              widget.userImage ??
-                  'https://static.vecteezy.com/system/resources/previews/005/176/777/large_2x/user-avatar-line-style-free-vector.jpg',
-            ),
+            child: Icon(Icons.person),
+            // backgroundImage: NetworkImage(
+            //   widget.userImage ??
+            //       'https://static.vecteezy.com/system/resources/previews/005/176/777/large_2x/user-avatar-line-style-free-vector.jpg',
+            // ),
           ),
           const SizedBox(width: 10),
           SizedBox(
             child: Text(
-              'Hi, ${widget.userName}',
+              widget.userName,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -147,10 +159,11 @@ class _LoginStatusPanelState extends State<LoginStatusPanel> {
                     width: TOP_AVATAR_HEIGHT,
                     child: CircleAvatar(
                       radius: TOP_AVATAR_HEIGHT,
-                      backgroundImage: NetworkImage(
-                        widget.userImage ??
-                            'https://static.vecteezy.com/system/resources/previews/005/176/777/large_2x/user-avatar-line-style-free-vector.jpg',
-                      ),
+            child: Icon(Icons.person),
+                      // backgroundImage: NetworkImage(
+                      //   widget.userImage ??
+                      //       'https://static.vecteezy.com/system/resources/previews/005/176/777/large_2x/user-avatar-line-style-free-vector.jpg',
+                      // ),
                     ),
                   ),
                   Expanded(

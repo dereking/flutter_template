@@ -17,8 +17,7 @@ class LanguageButton extends StatefulWidget {
 class _LanguageButtonState extends State<LanguageButton> {
   final MenuController _menuController = MenuController();
   @override
-  Widget build(BuildContext context) {
-    final settingsProvider = Provider.of<SettingsProvider>(context);
+  Widget build(BuildContext context) { 
     return MenuAnchor(
       controller: _menuController,
       menuChildren: getLanguageMenuItems(),
@@ -42,7 +41,7 @@ class _LanguageButtonState extends State<LanguageButton> {
         child: Row(
           children: [
             CountryFlag.fromLanguageCode(
-              e.languageCode == "zh" ? "zh-cn" : e.languageCode,
+              e.languageCode == "zh" ? "zh-cn" : e.languageCode, // 中文需要特殊处理
               width: 28,
               height: 20,
             ),

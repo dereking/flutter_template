@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/components/mini_icon_button.dart';
-import 'package:flutter_template/components/theme_setting_button.dart';
-import '../components/header_user_panel.dart';
+import 'package:flutter_template/providers/user_provider.dart';
+import 'package:provider/provider.dart';
+import './mini_icon_button.dart';
+import './theme_setting_button.dart';
+import '../l10n/app_localizations.dart';
 import 'language_button.dart';
+import 'user/login_status_dropdown_button.dart';
 
 class TopAppBar extends StatefulWidget {
   final String title;
-  final List<Widget> actions;
 
-  const TopAppBar({super.key, required this.title, this.actions = const []});
+  const TopAppBar({super.key, required this.title});
 
   @override
   State<TopAppBar> createState() => _TopAppBarState();
@@ -41,6 +43,8 @@ class _TopAppBarState extends State<TopAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider provider = Provider.of<UserProvider>(context);
+
     return PreferredSize(
       preferredSize: Size.fromHeight(32), // 设置高度
       child: AppBar(
@@ -67,6 +71,7 @@ class _TopAppBarState extends State<TopAppBar> {
                       Icons.search,
                       color: Theme.of(context).colorScheme.primary,
                     ),
+                    tooltip: AppLocalizations.of(context)!.search,
                     onPressed: () {
                       // 处理搜索逻辑
                       print('Searching for: ${_searchEditingController.text} ');
@@ -84,6 +89,7 @@ class _TopAppBarState extends State<TopAppBar> {
           if (!_showSearch)
             MiniIconButton(
               icon: const Icon(Icons.search),
+              tooltip: AppLocalizations.of(context)!.search,
               onPressed: () {
                 setState(() {
                   _showSearch = !_showSearch;
@@ -95,7 +101,22 @@ class _TopAppBarState extends State<TopAppBar> {
             ),
           LanguageButton(),
           ThemeSettingButton(),
-          const HeaderUserPanel(),
+          LoginStatusDropdownButton(
+            userName: provider.loggedInUser?.name ?? "",
+            onTapLogin: () {
+              Provider.of<UserProvider>(context, listen: false).gotoLogin();
+            },
+            onTapLogout: () {
+              Provider.of<UserProvider>(context, listen: false).logout();
+            },
+          ),
+          MiniIconButton(
+            icon: const Icon(Icons.more_vert),
+            tooltip: AppLocalizations.of(context)!.moreAction,
+            onPressed: () {
+              Scaffold.of(context).openEndDrawer();
+            },
+          ),
         ],
       ),
     );

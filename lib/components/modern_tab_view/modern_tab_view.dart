@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/services/storage_service.dart';
 import './modern_tab_view_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,16 +47,14 @@ class _ModernTabViewState extends State<ModernTabView>
     });
   }
 
-  Future<void> _loadSidebarWidth() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _sidebarWidth = prefs.getDouble(_sidebarWidthKey) ?? _minSidebarWidth;
+  Future<void> _loadSidebarWidth() async { 
+      _sidebarWidth = await StorageService().get<double>(_sidebarWidthKey, _minSidebarWidth);
+    setState(()   { 
     });
   }
 
   Future<void> _saveSidebarWidth(double width) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_sidebarWidthKey, width);
+    await StorageService().set<double>(_sidebarWidthKey, width); 
   }
 
   @override

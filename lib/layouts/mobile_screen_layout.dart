@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import '../pages/default_page.dart';
 import '../components/top_app_bar.dart';
-import '../providers/app_info_provider.dart';
+import '../providers/user_provider.dart';
 import '../components/left_menu_bar/left_menu_item.dart';
 import 'package:provider/provider.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   final String title;
   final Widget? drawer; // 可选的抽屉菜单
+  final Widget? endDrawer;
   final Map<String, Widget> pages;
   final List<LeftMenuItem> menuItems;
 
-  final List<Widget> actions;
+  // final List<Widget> actions;
 
   const MobileScreenLayout({
     super.key,
     required this.title,
-    this.drawer,
     required this.pages,
     required this.menuItems,
-    this.actions = const [],
+    this.drawer,
+    this.endDrawer,
+    // this.actions = const [],
   });
 
   @override
@@ -30,7 +32,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
     _selectedIndex = index;
-    final provider = Provider.of<AppInfoProvider>(context, listen: false);
+    final provider = Provider.of<UserProvider>(context, listen: false);
     provider.curPage = widget.pages.keys.elementAt(index);
   }
 
@@ -40,10 +42,10 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AppInfoProvider>(context);
+    final provider = Provider.of<UserProvider>(context);
     return Scaffold(
       drawer: widget.drawer,
-
+      endDrawer: widget.endDrawer,
       body: Column(
         children: [
           TopAppBar(title: widget.title),

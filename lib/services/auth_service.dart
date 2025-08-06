@@ -56,4 +56,13 @@ class AuthService {
       return {'success': false, 'message': e.toString()};
     }
   }
+
+  Future<Map<String, dynamic>> signInWithApple() async {
+    try {
+      // TODO: 实现 apple 登录
+      return {'success': true, 'message': '登录成功'};
+    } catch (e) {
+      return {'success': false, 'message': e.toString()};
+    }
+  }
 }

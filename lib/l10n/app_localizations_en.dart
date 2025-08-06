@@ -9,52 +9,64 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Listenor';
+  String get about => 'About';
+
+  @override
+  String get add => 'Add';
 
   @override
   String get appDescription => 'Listenor is a powerful tool for managing and interacting with your audio content.';
 
   @override
-  String get settings => 'Settings';
+  String get appTitle => 'Listenor';
 
   @override
-  String get about => 'About';
+  String get cancel => 'Cancel';
 
   @override
-  String get help => 'Help';
+  String get clear => 'Clear';
 
   @override
-  String get version => 'Version';
+  String get confirmDelete => 'Are you sure you want to delete this?';
 
   @override
-  String get language => 'Language';
-
-  @override
-  String get theme => 'Theme';
+  String get confirmPassword => 'Confirm Password';
 
   @override
   String get darkMode => 'Dark Mode';
 
   @override
-  String get lightMode => 'Light Mode';
-
-  @override
-  String get systemDefault => 'System Default';
-
-  @override
-  String get notifications => 'Notifications';
-
-  @override
-  String get enableNotifications => 'Enable Notifications';
+  String get delete => 'Delete';
 
   @override
   String get disableNotifications => 'Disable Notifications';
 
   @override
-  String get save => 'Save';
+  String get edit => 'Edit';
 
   @override
-  String get cancel => 'Cancel';
+  String get email => 'Email';
+
+  @override
+  String get enableNotifications => 'Enable Notifications';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get haveAccount => 'Have an account? Login';
+
+  @override
+  String get help => 'Help';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get lightMode => 'Light Mode';
 
   @override
   String get loading => 'Loading...';
@@ -63,43 +75,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Login';
 
   @override
+  String get loginOrSignUp => 'Login / Sign up';
+
+  @override
   String get logout => 'Logout';
 
   @override
-  String get register => 'Register';
+  String get moreAction => 'More Actions';
 
   @override
-  String get email => 'Email';
+  String get no => 'No';
 
   @override
-  String get password => 'Password';
-
-  @override
-  String get confirmPassword => 'Confirm Password';
-
-  @override
-  String get error => 'Error';
+  String get noAccount => 'No account? Sign up';
 
   @override
   String get noData => 'No data available';
 
   @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get orLoginWithThose => 'Or login with those accounts';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get register => 'Register';
+
+  @override
   String get retry => 'Retry';
 
   @override
-  String get success => 'Success';
-
-  @override
-  String get delete => 'Delete';
-
-  @override
-  String get confirmDelete => 'Are you sure you want to delete this?';
-
-  @override
-  String get yes => 'Yes';
-
-  @override
-  String get no => 'No';
+  String get save => 'Save';
 
   @override
   String get search => 'Search';
@@ -108,14 +117,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchPlaceholder => 'Search...';
 
   @override
-  String get clear => 'Clear';
+  String get settings => 'Settings';
 
   @override
-  String get add => 'Add';
+  String get success => 'Success';
 
   @override
-  String get edit => 'Edit';
+  String get systemDefault => 'System Default';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get pleaseInputEmailAddress => 'Please input email address';
+
+  @override
+  String get pleaseInputValidEmailAddress => 'Please input valid email address';
+
+  @override
+  String get pleaseInputPassword => 'Please input password';
+
+  @override
+  String get pleaseInputValidPassword => 'Please input valid password';
 
   @override
   String get update => 'Update';
+
+  @override
+  String get version => 'Version';
+
+  @override
+  String get yes => 'Yes';
 }

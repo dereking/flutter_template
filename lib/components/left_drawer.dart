@@ -33,7 +33,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
 
   Widget _buildDrawerHeader() {
     return DrawerHeader(
-      decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary),
       child: Column(
         children: [
           Row(

@@ -24,26 +24,21 @@ class ThemeProvider with ChangeNotifier {
 
   Future<bool> load() async {
     _themeSeedColor =
-        await StorageService().getString('seedColor') ?? 'blueGrey';
+        await StorageService().get<String>('seedColor','blueGrey');
 
     _themeMode =
-        (await StorageService().getString("themeMode") ?? "system") == "system"
+        (await StorageService().get<String>("themeMode", "system")) == "system"
         ? ThemeMode.system
         : ThemeMode.light;
     return true;
   }
-
-  void setThemeProvider(ThemeProvider tm) {
-    _themeMode = tm.themeMode;
-    _themeSeedColor = tm.themeSeedColor;
-    notifyListeners();
-  }
+ 
 
   String _themeSeedColor = 'blue';
   String get themeSeedColor => _themeSeedColor;
   void setThemeSeedColor(String color) async {
     _themeSeedColor = color;
-    await StorageService().setString('seedColor', color);
+    await StorageService().set<String>('seedColor', color);
     notifyListeners(); //通知依赖的Widget更新
   }
 
@@ -59,7 +54,7 @@ class ThemeProvider with ChangeNotifier {
   ThemeMode get themeMode => _themeMode;
   setThemeMode(ThemeMode themeMode) async {
     _themeMode = themeMode;
-    await StorageService().setString('themeMode', themeMode.name);
+    await StorageService().set<String>('themeMode', themeMode.name);
     notifyListeners();
   }
 }
@@ -80,7 +75,7 @@ Map<String, Color> themeColorMap = {
 ThemeData _genRuiTheme({
   Brightness brightness = Brightness.dark,
   Color seedColor = Colors.blue,
-  String font = "Noto Sans SC", // 修改默认字体名称
+  // String font = "Noto Sans SC", // 修改默认字体名称
 }) {
   return ThemeData(
     colorScheme: ColorScheme.fromSeed(
@@ -88,7 +83,7 @@ ThemeData _genRuiTheme({
       brightness: brightness,
     ),
     useMaterial3: true,
-    fontFamily: font,
+    // fontFamily: font,
     textTheme: const TextTheme(
       displayLarge: TextStyle(fontSize: 22),
       displayMedium: TextStyle(fontSize: 20),

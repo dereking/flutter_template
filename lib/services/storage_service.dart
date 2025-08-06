@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:ui';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
@@ -17,30 +20,50 @@ class StorageService {
     return _instance!;
   }
 
-  Future<String?> loadToken() async {
+  Future<T> get<T>(String key, T defaultValue) async {
     final ps = await SharedPreferences.getInstance();
-    final token = ps.getString("token");
-    if (token == null) {
-      return null;
+    if (T == String) {
+      return ps.getString(key) as T? ?? defaultValue;
+    } else if (T == int) {
+      return ps.getInt(key) as T? ?? defaultValue;
+    } else if (T == double) {
+      return ps.getDouble(key) as T? ?? defaultValue;
+    } else if (T == bool) {
+      return ps.getBool(key) as T? ?? defaultValue;
+    } else if (T == List<String>) {
+      return ps.getStringList(key) as T? ?? defaultValue;
+    } else if (T == Locale) {
+      final langTag = ps.getString(key);
+      return langTag != null
+          ? Locale.fromSubtags(languageCode: langTag) as T
+          : defaultValue;
+    } else {
+      return defaultValue; // 对于其他类型，返回默认值
     }
-    return token;
   }
 
-  Future<bool> saveToken(String? tk) async {
+  Future<void> set<T>(String key, T? value) async {
     final ps = await SharedPreferences.getInstance();
-    if (tk == null) {
-      return ps.remove("token");
+    if (value == null) {
+      await ps.remove(key);
+      return;
     }
-    return ps.setString("token", tk);
-  }
 
-  Future<void> setString(String key, String value) async {
-    final ps = await SharedPreferences.getInstance();
-    await ps.setString(key, value);
-  }
-
-  Future<String?> getString(String key) async {
-    final ps = await SharedPreferences.getInstance();
-    return ps.getString(key);
+    if (value is String) {
+      await ps.setString(key, value);
+    } else if (value is int) {
+      await ps.setInt(key, value);
+    } else if (value is double) {
+      await ps.setDouble(key, value);
+    } else if (value is bool) {
+      await ps.setBool(key, value);
+    } else if (value is List<String>) {
+      await ps.setStringList(key, value);
+    } else if (value is Locale) {
+      await ps.setString(key, value.toLanguageTag());
+    } else {
+      final jsonString = json.encode(value);
+      await ps.setString(key, jsonString);
+    }
   }
 }

@@ -5,8 +5,8 @@ class MiniIconButton extends StatefulWidget {
     super.key,
     required this.icon,
     required this.onPressed,
+    required this.tooltip,
     this.size = 20,
-    this.tooltip,
     this.selectedIcon,
     this.isSelected,
     this.pressCheckAnimation = true,
@@ -16,7 +16,7 @@ class MiniIconButton extends StatefulWidget {
   final Widget icon;
   final Widget? selectedIcon;
 
-  final String? tooltip;
+  final String tooltip;
 
   final bool? isSelected;
 
@@ -50,9 +50,7 @@ class _MiniIconButtonState extends State<MiniIconButton> {
         iconSize: widget.size - 2,
         style: ButtonStyle(
           shape: WidgetStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           ),
         ),
         icon: (widget.isSelected == null)
@@ -64,7 +62,7 @@ class _MiniIconButtonState extends State<MiniIconButton> {
           minWidth: widget.size,
           minHeight: widget.size,
         ),
-        color: Theme.of(context).buttonTheme.colorScheme?.onSurface, 
+        color: Theme.of(context).buttonTheme.colorScheme?.onSurface,
         selectedIcon: widget.selectedIcon,
         isSelected: widget.isSelected,
         tooltip: widget.tooltip,

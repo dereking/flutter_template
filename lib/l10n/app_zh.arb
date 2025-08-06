@@ -1,40 +1,191 @@
 {
   "@@locale": "zh",
-  "appTitle": "Listenor",
-  "appDescription": "Listenor 是一个强大的工具，用于管理和互动您的音频内容。",
-  "settings": "设置",
   "about": "关于",
-  "help": "帮助",
-  "version": "版本",
-  "language": "语言",
-  "theme": "主题",
-  "darkMode": "暗黑模式",
-  "lightMode": "明亮模式",
-  "systemDefault": "系统默认",
-  "notifications": "通知",
-  "enableNotifications": "启用通知",
-  "disableNotifications": "禁用通知",
-  "save": "保存",
-  "cancel": "取消",
-  "loading": "加载中...",
-  "login": "登录",
-  "logout": "退出",
-  "register": "注册",
-  "email": "邮箱",
-  "password": "密码",
-  "confirmPassword": "确认密码",
-  "error": "错误",
-  "noData": "没有可用数据",
-  "retry": "重试",
-  "success": "成功",
-  "delete": "删除",
-  "confirmDelete": "您确定要删除此项吗？",
-  "yes": "是",
-  "no": "否",
-  "search": "搜索",
-  "searchPlaceholder": "搜索...",
-  "clear": "清除",
+  "@about": {
+    "description": "关于页面标题"
+  },
   "add": "添加",
+  "@add": {
+    "description": "添加操作按钮"
+  },
+  "appDescription": "Listenor 是一个强大的工具，用于管理和互动您的音频内容。",
+  "@appDescription": {
+    "description": "应用程序描述"
+  },
+  "appTitle": "Listenor",
+  "@appTitle": {
+    "description": "应用程序名称"
+  },
+  "cancel": "取消",
+  "@cancel": {
+    "description": "取消操作按钮"
+  },
+  "clear": "清除",
+  "@clear": {
+    "description": "清除操作按钮"
+  },
+  "confirmDelete": "您确定要删除此项吗？",
+  "@confirmDelete": {
+    "description": "删除确认提示"
+  },
+  "confirmPassword": "确认密码",
+  "@confirmPassword": {
+    "description": "确认密码输入框标签"
+  },
+  "darkMode": "暗黑模式",
+  "@darkMode": {
+    "description": "暗黑主题模式"
+  },
+  "delete": "删除",
+  "@delete": {
+    "description": "删除操作按钮"
+  },
+  "disableNotifications": "禁用通知",
+  "@disableNotifications": {
+    "description": "禁用通知选项"
+  },
   "edit": "编辑",
-  "update": "更新"
+  "@edit": {
+    "description": "编辑操作按钮"
+  },
+  "email": "邮箱",
+  "@email": {
+    "description": "邮箱输入框标签"
+  },
+  "enableNotifications": "启用通知",
+  "@enableNotifications": {
+    "description": "启用通知选项"
+  },
+  "error": "错误",
+  "@error": {
+    "description": "错误提示"
+  },
+  "haveAccount": "已有账号？登录",
+  "@haveAccount": {
+    "description": "提示登录操作"
+  },
+  "help": "帮助",
+  "@help": {
+    "description": "帮助页面标题"
+  },
+  "home": "首页",
+  "@home": {
+    "description": "首页标题"
+  },
+  "language": "语言",
+  "@language": {
+    "description": "语言设置选项"
+  },
+  "lightMode": "明亮模式",
+  "@lightMode": {
+    "description": "明亮主题模式"
+  },
+  "loading": "加载中...",
+  "@loading": {
+    "description": "加载状态提示"
+  },
+  "login": "登录",
+  "@login": {
+    "description": "登录操作按钮"
+  },
+  "loginOrSignUp": "登录 / 注册",
+  "@loginOrSignUp": {
+    "description": "登录或注册操作按钮"
+  },
+  "logout": "退出",
+  "@logout": {
+    "description": "退出登录按钮"
+  },
+  "moreAction": "更多操作",
+  "@moreAction": {
+    "description": "更多操作菜单"
+  },
+  "no": "否",
+  "@no": {
+    "description": "否定选项"
+  },
+  "noAccount": "没有账号？注册",
+  "@noAccount": {
+    "description": "提示注册操作"
+  },
+  "noData": "没有可用数据",
+  "@noData": {
+    "description": "无数据提示"
+  },
+  "notifications": "通知",
+  "@notifications": {
+    "description": "通知设置"
+  },
+  "orLoginWithThose": "或使用以下方式登录",
+  "@orLoginWithThose": {
+    "description": "提示登录操作"
+  },
+  "password": "密码",
+  "@password": {
+    "description": "密码输入框标签"
+  },
+  "register": "注册",
+  "@register": {
+    "description": "注册操作按钮"
+  },
+  "retry": "重试",
+  "@retry": {
+    "description": "重试操作按钮"
+  },
+  "save": "保存",
+  "@save": {
+    "description": "保存操作按钮"
+  },
+  "search": "搜索",
+  "@search": {
+    "description": "搜索操作按钮"
+  },
+  "searchPlaceholder": "搜索...",
+  "@searchPlaceholder": {
+    "description": "搜索输入框占位符"
+  },
+  "settings": "设置",
+  "@settings": {
+    "description": "设置页面标题"
+  },
+  "success": "成功",
+  "@success": {
+    "description": "成功提示"
+  },
+  "systemDefault": "系统默认",
+  "@systemDefault": {
+    "description": "系统默认主题"
+  },
+  "theme": "主题",
+  "@theme": {
+    "description": "主题设置选项"
+  },
+  "pleaseInputEmailAddress": "请输入邮箱",
+  "@pleaseInputEmailAddress": {
+    "description": "提示输入邮箱"
+  },
+  "pleaseInputValidEmailAddress": "请输入有效的邮箱",
+  "@pleaseInputValidEmailAddress": {
+    "description": "提示输入有效的邮箱"
+  },
+  "pleaseInputPassword": "请输入密码",
+  "@pleaseInputPassword": {
+    "description": "提示输入密码"
+  },
+  "pleaseInputValidPassword": "请输入有效的密码",
+  "@pleaseInputValidPassword": {
+    "description": "提示输入有效的密码"
+  },
+  "update": "更新",
+  "@update": {
+    "description": "更新操作按钮"
+  },
+  "version": "版本",
+  "@version": {
+    "description": "版本信息"
+  },
+  "yes": "是",
+  "@yes": {
+    "description": "肯定选项"
+  }
 }

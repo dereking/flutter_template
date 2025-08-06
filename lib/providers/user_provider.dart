@@ -1,28 +1,27 @@
 import 'dart:io';
 
- 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../services/storage_service.dart'; 
+import '../services/storage_service.dart';
 
-class AppInfoProvider extends ChangeNotifier {
+class UserProvider extends ChangeNotifier {
   // 单例实例
-  static AppInfoProvider? _instance;
+  static UserProvider? _instance;
 
   // 私有构造函数
-  AppInfoProvider._();
+  UserProvider._();
 
   // 获取单例实例
-  static AppInfoProvider get instance {
-    _instance ??= AppInfoProvider._();
+  static UserProvider get instance {
+    _instance ??= UserProvider._();
     return _instance!;
   }
 
-  factory AppInfoProvider() {
-    _instance ??= AppInfoProvider._();
+  factory UserProvider() {
+    _instance ??= UserProvider._();
     return _instance!;
   }
-  
+
   dynamic loggedInUser;
 
   String? _token = "";
@@ -32,7 +31,7 @@ class AppInfoProvider extends ChangeNotifier {
 
   set token(String? token) {
     _token = token;
-    StorageService.instance.saveToken(token);
+    StorageService().set<String>("token", token);
     notifyListeners();
   }
 
@@ -45,7 +44,6 @@ class AppInfoProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 
   // Future<models.User> register(
   //     String email, String password, String name) async {
@@ -68,6 +66,15 @@ class AppInfoProvider extends ChangeNotifier {
   //   return session;
   // }
 
+  void gotoLogin() {
+    navigateTo("/login");
+  }
+
+  void navigateTo(String route) {
+    curPage = route;
+    notifyListeners();
+  }
+
   Future<bool> logout() async {
     // await _account!.deleteSession(sessionId: 'current');
 
@@ -82,7 +89,7 @@ class AppInfoProvider extends ChangeNotifier {
   String _builtinBinDir = "";
   String get builtinCommandDir {
     if (_builtinBinDir == "") {
-      throw Exception("AppInfoProvider not initialized");
+      throw Exception("UserProvider not initialized");
     }
     return _builtinBinDir;
   }
@@ -99,10 +106,9 @@ class AppInfoProvider extends ChangeNotifier {
 
       // user = await StorageService.instance.loadUserInfo();
 
-      token = await StorageService.instance.loadToken();
- 
+      token = await StorageService().get<String>("token", "");
     } catch (e) {
-      debugPrint("AppInfoProvider load error: $e");
+      debugPrint("UserProvider load error: $e");
       return false;
     }
     notifyListeners();
