@@ -29,16 +29,7 @@ class DefaultPage extends StatelessWidget {
             const Text(
               '1. 会议记录\n2. 客户服务\n3. 语音备忘录',
               style: TextStyle(fontSize: 18),
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  // 创建新聊天的逻辑
- 
-                },
-                child: const Text('创建新会话'),
-              ),
-            ),
+            ), 
           ],
         ),
       ),

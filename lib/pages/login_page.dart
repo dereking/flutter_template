@@ -1,7 +1,7 @@
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/l10n/app_localizations.dart';
 import '../providers/user_provider.dart';
-import '../services/auth_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool _isLogin = true;
   bool _isLoading = false;
-  final _authService = AuthService();
 
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -33,29 +32,45 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _handleEmailAuth() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-      try {
-        if (_isLogin) {
-          Provider.of<UserProvider>(context, listen: false).navigateTo("/home");
-        } else {
-          // final AuthRegisterPost200Response? res =
-          //     await _authService.signUpWithEmail(
-          //   _emailController.text,
-          //   _passwordController.text,
-          // );
-          // if (res == null || res.code != 200) {
-          //   _showError(res == null ? "" : res.message ?? "");
-          // }
-          // Provider.of<UserProvider>(context, listen: false).user = res!.data;
-          // _showSuccess(res.message!);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    setState(() => _isLoading = true);
+
+    try {
+      if (_isLogin) {
+        if (await userProvider.isLoggedIn()) { 
+          return;
         }
-
-        // _showError(result['message']);
-      } finally {
-        setState(() => _isLoading = false);
+        final User? user = await userProvider.login(
+          _emailController.text,
+          _passwordController.text,
+        );
+        if (user == null) {
+          _showError("登录失败");
+          return;
+        }
+        _showSuccess("登录成功");
+        userProvider.navigateTo("/home");
+      } else {
+        final User? user = await userProvider.signUp(
+          _emailController.text,
+          _passwordController.text,
+        );
+        if (user == null) {
+          _showError("reg失败");
+        } else {
+          _showSuccess("reg成功");
+          userProvider.navigateTo("/home");
+        }
       }
+
+      // _showError(result['message']);
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
@@ -213,45 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                           ),
-                          const Divider(height: 32),
-                          Text(
-                            AppLocalizations.of(context)!.orLoginWithThose,
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              // _buildSocialButton(
-                              //   icon: FontAwesomeIcons.google,
-                              //   color: Colors.red,
-                              //   onPressed: () => _handleSocialAuth(
-                              //     _authService.signInWithGoogle,
-                              //   ),
-                              // ),
-                              // _buildSocialButton(
-                              //   icon: FontAwesomeIcons.facebook,
-                              //   color: Colors.blue,
-                              //   onPressed: () => _handleSocialAuth(
-                              //     _authService.signInWithFacebook,
-                              //   ),
-                              // ),
-                              _buildSocialButton(
-                                icon: FontAwesomeIcons.microsoft,
-                                color: Colors.grey,
-                                onPressed: () => _handleSocialAuth(
-                                  _authService.signInWithMicrosoft,
-                                ),
-                              ),
-                              _buildSocialButton(
-                                icon: FontAwesomeIcons.apple,
-                                color: Colors.black,
-                                onPressed: () => _handleSocialAuth(
-                                  _authService.signInWithApple,
-                                ),
-                              ),
-                            ],
-                          ),
+                          // ..._build3rdLoginButtons(),
                         ],
                       ),
                     ),
@@ -263,6 +240,53 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  List<Widget> _build3rdLoginButtons() {
+    return [
+      const Divider(height: 32),
+      Text(
+        AppLocalizations.of(context)!.orLoginWithThose,
+        style: Theme.of(context).textTheme.bodySmall,
+      ),
+      const SizedBox(height: 16),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          // _buildSocialButton(
+          //   icon: FontAwesomeIcons.google,
+          //   color: Colors.red,
+          //   onPressed: () => _handleSocialAuth(
+          //     _authService.signInWithGoogle,
+          //   ),
+          // ),
+          // _buildSocialButton(
+          //   icon: FontAwesomeIcons.facebook,
+          //   color: Colors.blue,
+          //   onPressed: () => _handleSocialAuth(
+          //     _authService.signInWithFacebook,
+          //   ),
+          // ),
+          _buildSocialButton(
+            icon: FontAwesomeIcons.microsoft,
+            color: Colors.grey,
+            onPressed: () => _handleSocialAuth(
+              Provider.of<UserProvider>(
+                context,
+                listen: false,
+              ).signInWithMicrosoft,
+            ),
+          ),
+          _buildSocialButton(
+            icon: FontAwesomeIcons.apple,
+            color: Colors.black,
+            onPressed: () => _handleSocialAuth(
+              Provider.of<UserProvider>(context, listen: false).signInWithApple,
+            ),
+          ),
+        ],
+      ),
+    ];
   }
 
   Widget _buildSocialButton({
