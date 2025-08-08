@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart'; 
 import '../pages/default_page.dart';
 import '../providers/theme_provider.dart';
 import '../pages/login_page.dart';
@@ -21,6 +22,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   initLogger();
+
+  // Stripe.publishableKey = 'pk_test_51PvwkJ05vKcIIxn04XhB3IS2qLKOvVvLKXvNIgMWtag96LHVrKphIIlDecXDaUKIr2PhOlQkH5KtKnTfqav6xhpz004aWNhzyu'; // 替换成你的 Stripe 公钥
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
