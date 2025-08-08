@@ -33,6 +33,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmPassword => 'Confirm Password';
 
   @override
+  String get copyToClipboard => 'Copy to Clipboard';
+
+  @override
   String get darkMode => 'Dark Mode';
 
   @override
@@ -82,6 +85,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moreAction => 'More Actions';
+
+  @override
+  String get mySubscription => 'My Subscription';
 
   @override
   String get no => 'No';

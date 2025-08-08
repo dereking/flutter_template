@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/l10n/app_localizations.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../models/user_session.dart';
 import '../providers/app_state_provider.dart';
 import '../providers/user_provider.dart';
@@ -184,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Column(
                                   children: [
                                     TextFormField(
-                                      controller: _emailController, 
+                                      controller: _emailController,
                                       decoration: InputDecoration(
                                         labelText: AppLocalizations.of(
                                           context,
@@ -210,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                     const SizedBox(height: 16),
                                     TextFormField(
-                                      controller: _passwordController, 
+                                      controller: _passwordController,
                                       obscureText: true,
                                       decoration: InputDecoration(
                                         labelText: AppLocalizations.of(
@@ -238,7 +239,12 @@ class _LoginPageState extends State<LoginPage> {
                                             ? null
                                             : _handleEmailAuth,
                                         child: _isLoading
-                                            ? const CircularProgressIndicator()
+                                            ? LoadingAnimationWidget.staggeredDotsWave(
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurface,
+                                                size: 16,
+                                              )
                                             : Text(
                                                 _isLogin
                                                     ? AppLocalizations.of(

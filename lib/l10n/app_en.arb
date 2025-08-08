@@ -32,6 +32,10 @@
   "@confirmPassword": {
     "description": "Label for password confirmation field"
   },
+  "copyToClipboard": "Copy to Clipboard",
+  "@copyToClipboard": {
+    "description": "Label for copy to clipboard action"
+  },
   "darkMode": "Dark Mode",
   "@darkMode": {
     "description": "Label for dark mode theme option"
@@ -99,6 +103,10 @@
   "moreAction": "More Actions",
   "@moreAction": {
     "description": "Label for more actions menu"
+  },
+  "mySubscription": "My Subscription",
+  "@mySubscription": {
+    "description": "Label for my subscription menu item"
   },
   "no": "No",
   "@no": {

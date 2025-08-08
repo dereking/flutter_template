@@ -1,4 +1,3 @@
- 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,22 +19,22 @@ class ProfileItem {
 }
 
 class LoginStatusDropdownButton extends StatelessWidget {
-  final UserSession? user; 
+  final UserSession? user;
   final Function()? onTapLogin;
   final Function()? onTapLogout;
+  final Function()? onMySubscription;
 
   const LoginStatusDropdownButton({
     super.key,
-    required this.user, 
+    required this.user,
     this.onTapLogin,
     this.onTapLogout,
+    this.onMySubscription,
   });
- 
 
   static const double LABEL_WIDTH = 80;
   static const double TOP_AVATAR_HEIGHT = 80;
- 
-  
+
   @override
   Widget build(BuildContext context) {
     if (user == null) {
@@ -102,24 +101,37 @@ class LoginStatusDropdownButton extends StatelessWidget {
         ),
         const PopupMenuDivider(), // 菜单顶部分割线
 
-        _profileItem("Name", Icons.person, user!.name ?? ""),
-        _profileItem("Email", Icons.mail, user!.email ?? ""),
-        _profileItem("Phone", Icons.phone, user!.phone ?? ""),
-        _profileItem("Registration", Icons.date_range_outlined, user!.createdAt?.toString() ?? ""),
+        _profileItem(context, "Name", Icons.person, user!.name ?? ""),
+        _profileItem(context, "Email", Icons.mail, user!.email ?? ""),
+        _profileItem(context, "Phone", Icons.phone, user!.phone ?? ""),
+        _profileItem(
+          context,
+          "Registration",
+          Icons.date_range_outlined,
+          user!.createdAt?.toString() ?? "",
+        ),
+
         // _profileItem("Phone", Icons.phone, widget.user!.),
- 
         const PopupMenuDivider(), // 菜单顶部分割线
 
         PopupMenuItem(
+          value: 'mySubscription',
+          child: Row(
+            children: [
+                Icon(Icons.payment),
+              const SizedBox(width: 5),
+              Text(AppLocalizations.of(context)!.mySubscription),
+            ],
+          ),
+        ),
+
+        PopupMenuItem(
           value: 'logout',
-          // onTap: () {
-          //   widget.onTapLogout?.call();
-          // },
           child: Row(
             children: [
               const Icon(Icons.logout),
               const SizedBox(width: 5),
-              Text("Logout"),
+              Text(AppLocalizations.of(context)!.logout),
             ],
           ),
         ),
@@ -127,6 +139,9 @@ class LoginStatusDropdownButton extends StatelessWidget {
       onSelected: (value) {
         // print("menu item $value");
         switch (value) {
+          case 'mySubscription': 
+            onMySubscription?.call(); 
+            break;
           case 'logout':
             onTapLogout?.call();
             break;
@@ -138,18 +153,40 @@ class LoginStatusDropdownButton extends StatelessWidget {
     );
   }
 
-PopupMenuEntry _profileItem(String title, IconData icon, String value) {
-  return PopupMenuItem(
-    value: value,
-    child: Row(
-      children: [
-        Icon(icon),
-        const SizedBox(width: 5),
-        SizedBox(width: LABEL_WIDTH, child: Text( title)),
-        Expanded(child: Text(value, overflow: TextOverflow.ellipsis)),
-      ],
-    ),
-  );
-}
-
+  PopupMenuEntry _profileItem(
+    BuildContext context,
+    String title,
+    IconData icon,
+    String value,
+  ) {
+    return PopupMenuItem(
+      value: value,
+      child: Tooltip(
+        richMessage: value.isNotEmpty
+            ? TextSpan(
+                text: "$value \n\n",
+                // style: TextStyle(fontSize: 16),
+                children: [
+                  TextSpan(
+                    text: AppLocalizations.of(context)!.copyToClipboard,
+                    style: TextStyle(
+                      fontSize: 9,
+                      color: Theme.of(context).hintColor,
+                    ),
+                  ),
+                ],
+              )
+            : null,
+        message: value.isNotEmpty ? null : "No value",
+        child: Row(
+          children: [
+            Icon(icon),
+            const SizedBox(width: 5),
+            SizedBox(width: LABEL_WIDTH, child: Text(title)),
+            Expanded(child: Text(value, overflow: TextOverflow.ellipsis)),
+          ],
+        ),
+      ),
+    );
+  }
 }

@@ -143,6 +143,12 @@ abstract class AppLocalizations {
   /// **'Confirm Password'**
   String get confirmPassword;
 
+  /// Label for copy to clipboard action
+  ///
+  /// In en, this message translates to:
+  /// **'Copy to Clipboard'**
+  String get copyToClipboard;
+
   /// Label for dark mode theme option
   ///
   /// In en, this message translates to:
@@ -244,6 +250,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More Actions'**
   String get moreAction;
+
+  /// Label for my subscription menu item
+  ///
+  /// In en, this message translates to:
+  /// **'My Subscription'**
+  String get mySubscription;
 
   /// Negative response
   ///

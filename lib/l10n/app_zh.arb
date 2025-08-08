@@ -32,6 +32,10 @@
   "@confirmPassword": {
     "description": "确认密码输入框标签"
   },
+  "copyToClipboard": "复制到剪贴板",
+  "@copyToClipboard": {
+    "description": "复制到剪贴板操作"
+  },
   "darkMode": "暗黑模式",
   "@darkMode": {
     "description": "暗黑主题模式"
@@ -99,6 +103,10 @@
   "moreAction": "更多操作",
   "@moreAction": {
     "description": "更多操作菜单"
+  },
+  "mySubscription": "我的订阅",
+  "@mySubscription": {
+    "description": "我的订阅菜单"
   },
   "no": "否",
   "@no": {

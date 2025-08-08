@@ -33,6 +33,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get confirmPassword => '确认密码';
 
   @override
+  String get copyToClipboard => '复制到剪贴板';
+
+  @override
   String get darkMode => '暗黑模式';
 
   @override
@@ -82,6 +85,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get moreAction => '更多操作';
+
+  @override
+  String get mySubscription => '我的订阅';
 
   @override
   String get no => '否';

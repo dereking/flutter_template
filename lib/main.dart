@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:flutter_template/services/backend_service.dart';
+import 'package:flutter/material.dart'; 
+import '/pages/payment/subscription_page.dart';
+import '/services/backend_service.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../pages/default_page.dart';
 import '../providers/theme_provider.dart';
@@ -14,6 +15,7 @@ import './layouts/mobile_screen_layout.dart';
 import './layouts/wide_screen_layout.dart';
 import './pages/about_page.dart';
 import './pages/settings_page.dart';
+import 'pages/payment/payment_page.dart';
 import 'providers/app_state_provider.dart';
 import 'providers/user_provider.dart';
 import 'logger.dart';
@@ -88,9 +90,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     debugPrint("UserProvider.load done");
 
-    setState(() {
-      _isLoading = false;
-    });
+    await Future.delayed(const Duration(seconds: 2), () {});
 
     return true;
   }
@@ -119,7 +119,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             themeProvider.themeSeedColor,
           ),
           home: _isLoading
-              ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+              ? Scaffold(body: Center(child: _buildLoading()))
               : LayoutBuilder(
                   builder: (context, constraints) {
                     if (constraints.maxWidth > 800) {
@@ -143,6 +143,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 ),
         );
       },
+    );
+  }
+
+  Widget _buildLoading() {
+    return LoadingAnimationWidget.staggeredDotsWave(
+      color: Theme.of(context).colorScheme.onSurface,
+      size: 200,
     );
   }
 
@@ -191,6 +198,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     "/settings": SettingsPage(),
     "/about": AboutPage(),
     "/login": LoginPage(),
+    "/subscription": SubscriptionPage(),
+    "/payment": PaymentPage(),
   };
 
   List<LeftMenuItem> getLeftMenuItems(BuildContext context) {

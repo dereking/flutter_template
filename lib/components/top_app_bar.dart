@@ -110,6 +110,9 @@ class _TopAppBarState extends State<TopAppBar> {
               print("logout");
               Provider.of<UserProvider>(context, listen: false).logout();
             },
+            onMySubscription: () {
+              Provider.of<UserProvider>(context, listen: false).navigateTo("/subscription");
+            },
           ),
           MiniIconButton(
             icon: const Icon(Icons.more_vert),

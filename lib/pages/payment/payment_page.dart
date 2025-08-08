@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 
-class PaymentPage extends StatelessWidget {
-  final String clientSecret;
+class PaymentPage extends StatelessWidget { 
 
-  const PaymentPage({super.key, required this.clientSecret});
+  const PaymentPage({super.key });
 
   Future<void> handlePayment(BuildContext context) async {
     try {
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: clientSecret,
+          paymentIntentClientSecret: "clientSecret",
           merchantDisplayName: 'Your App Name',
         ),
       );
