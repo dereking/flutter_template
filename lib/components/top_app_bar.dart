@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/providers/user_provider.dart';
+import '/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import './mini_icon_button.dart';
 import './theme_setting_button.dart';

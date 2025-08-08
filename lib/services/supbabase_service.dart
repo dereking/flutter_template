@@ -1,4 +1,4 @@
-import 'package:flutter_template/models/user_session.dart';
+import '/models/user_session.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../config.dart';

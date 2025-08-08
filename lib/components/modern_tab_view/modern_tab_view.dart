@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/services/storage_service.dart';
+import '/services/storage_service.dart';
 import './modern_tab_view_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

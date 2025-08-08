@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/l10n/app_localizations.dart';
+import '/l10n/app_localizations.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../models/user_session.dart';
 import '../providers/app_state_provider.dart';

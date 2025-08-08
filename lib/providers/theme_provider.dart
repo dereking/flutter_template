@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_template/services/storage_service.dart';
+import '/services/storage_service.dart';
 
 class ThemeProvider with ChangeNotifier {
   // ThemeProvider();

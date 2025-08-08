@@ -1,6 +1,6 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/components/mini_icon_button.dart';
+import '/components/mini_icon_button.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';

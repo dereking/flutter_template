@@ -1,7 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
-import 'package:flutter_template/config.dart';
-import 'package:flutter_template/models/finance/finance_stat.dart';
+import '/config.dart';
+import '/models/finance/finance_stat.dart';
 
 import '../models/user_session.dart';
 import 'backend_service.dart';
