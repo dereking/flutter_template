@@ -1,8 +1,9 @@
-import 'package:appwrite/models.dart';
+ 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../models/user_session.dart';
 
 class ProfileItem {
   final String title;
@@ -18,107 +19,28 @@ class ProfileItem {
   });
 }
 
-class LoginStatusDropdownButton extends StatefulWidget {
-  final User? user;
-  // final String? userImage;
-  // final String? userEmail;
-  // final String? userPhone;
-  // final String? userAddress;
-  // final String? userBirthday;
-  // final String? userGender;
-  // final String? userRole;
-  // final String? userStatus;
-  // final DateTime? userCreatedAt;
-  // final DateTime? userUpdatedAt;
-  // final DateTime? userDeletedAt;
-  // final DateTime? userLastLogin;
-  // final DateTime? userLastLogout;
+class LoginStatusDropdownButton extends StatelessWidget {
+  final UserSession? user; 
   final Function()? onTapLogin;
   final Function()? onTapLogout;
 
   const LoginStatusDropdownButton({
     super.key,
-    required this.user,
-    // this.userImage,
-    // this.userEmail,
-    // this.userPhone,
-    // this.userAddress,
-    // this.userBirthday,
-    // this.userGender,
-    // this.userRole,
-    // this.userStatus,
-    // this.userCreatedAt,
-    // this.userUpdatedAt,
-    // this.userDeletedAt,
-    // this.userLastLogin,
-    // this.userLastLogout,
+    required this.user, 
     this.onTapLogin,
     this.onTapLogout,
   });
-
-  @override
-  State<LoginStatusDropdownButton> createState() =>
-      _LoginStatusDropdownButtonState();
-}
-
-class _LoginStatusDropdownButtonState extends State<LoginStatusDropdownButton> {
-  List<ProfileItem> profileItems = [];
+ 
 
   static const double LABEL_WIDTH = 80;
   static const double TOP_AVATAR_HEIGHT = 80;
-
-  @override
-  void initState() {
-    super.initState();
-    print("init login button :user: ${widget.user?.name}");
-    if (widget.user?.email != null) {
-      profileItems.add(
-        ProfileItem(
-          title: "Email",
-          value: widget.user!.email,
-          icon: Icons.email,
-          onTap: () {},
-        ),
-      );
-    }
-    if (widget.user?.phone != null) {
-      profileItems.add(
-        ProfileItem(
-          title: "Phone",
-          value: widget.user!.phone,
-          icon: Icons.phone,
-          onTap: () {},
-        ),
-      );
-    }
-    if (widget.user?.registration != null) {
-      profileItems.add(
-        ProfileItem(
-          title: "Registration",
-          value: widget.user!.registration,
-          icon: Icons.date_range_outlined,
-          onTap: () {},
-        ),
-      );
-    }
-
-    if (widget.user?.name != null) {
-      profileItems.add(
-        ProfileItem(
-          title: "Name",
-          value: widget.user!.name,
-          icon: Icons.date_range_outlined,
-          onTap: () {},
-        ),
-      );
-    }
-  }
-
+ 
+  
   @override
   Widget build(BuildContext context) {
-    if (widget.user == null) {
+    if (user == null) {
       return TextButton(
-        onPressed: widget.onTapLogin,
+        onPressed: onTapLogin,
         child: Text(AppLocalizations.of(context)!.loginOrSignUp),
       );
     }
@@ -138,7 +60,7 @@ class _LoginStatusDropdownButtonState extends State<LoginStatusDropdownButton> {
           ),
           const SizedBox(width: 10),
           SizedBox(
-            child: Text(widget.user!.email, overflow: TextOverflow.ellipsis),
+            child: Text(user!.email ?? "", overflow: TextOverflow.ellipsis),
           ),
           const SizedBox(width: 10),
           const Icon(Icons.arrow_drop_down),
@@ -146,7 +68,7 @@ class _LoginStatusDropdownButtonState extends State<LoginStatusDropdownButton> {
       ),
       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
         PopupMenuItem(
-          value: widget.user!.email,
+          value: user!.email,
           child: SizedBox(
             // width: TOP_AVATAR_HEIGHT,
             height: TOP_AVATAR_HEIGHT + 20,
@@ -170,7 +92,7 @@ class _LoginStatusDropdownButtonState extends State<LoginStatusDropdownButton> {
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text(widget.user!.email)],
+                      children: [Text(user!.email ?? "")],
                     ),
                   ),
                 ],
@@ -180,11 +102,12 @@ class _LoginStatusDropdownButtonState extends State<LoginStatusDropdownButton> {
         ),
         const PopupMenuDivider(), // 菜单顶部分割线
 
-        _profileItem("Name", Icons.person, widget.user!.name),
-        _profileItem("Email", Icons.mail, widget.user!.email),
-        _profileItem("Phone", Icons.phone, widget.user!.phone),
-        _profileItem("Registration", Icons.date_range_outlined, widget.user!.registration),
+        _profileItem("Name", Icons.person, user!.name ?? ""),
+        _profileItem("Email", Icons.mail, user!.email ?? ""),
+        _profileItem("Phone", Icons.phone, user!.phone ?? ""),
+        _profileItem("Registration", Icons.date_range_outlined, user!.createdAt?.toString() ?? ""),
         // _profileItem("Phone", Icons.phone, widget.user!.),
+ 
         const PopupMenuDivider(), // 菜单顶部分割线
 
         PopupMenuItem(
@@ -205,7 +128,7 @@ class _LoginStatusDropdownButtonState extends State<LoginStatusDropdownButton> {
         // print("menu item $value");
         switch (value) {
           case 'logout':
-            widget.onTapLogout?.call();
+            onTapLogout?.call();
             break;
           default:
             Clipboard.setData(ClipboardData(text: value));

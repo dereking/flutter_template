@@ -102,7 +102,7 @@ class _TopAppBarState extends State<TopAppBar> {
           LanguageButton(),
           ThemeSettingButton(),
           LoginStatusDropdownButton(
-            user: Provider.of<UserProvider>(context).user,
+            user: Provider.of<UserProvider>(context).userSession,
             onTapLogin: () {
               Provider.of<UserProvider>(context, listen: false).gotoLogin();
             },

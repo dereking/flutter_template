@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart'; 
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:flutter_template/services/backend_service.dart';
+
 import '../pages/default_page.dart';
 import '../providers/theme_provider.dart';
 import '../pages/login_page.dart';
@@ -12,8 +14,9 @@ import './layouts/mobile_screen_layout.dart';
 import './layouts/wide_screen_layout.dart';
 import './pages/about_page.dart';
 import './pages/settings_page.dart';
+import 'providers/app_state_provider.dart';
 import 'providers/user_provider.dart';
-import './vars.dart';
+import 'logger.dart';
 import 'package:provider/provider.dart';
 
 import 'components/left_drawer.dart';
@@ -23,7 +26,12 @@ void main() async {
 
   initLogger();
 
-  // Stripe.publishableKey = 'pk_test_51PvwkJ05vKcIIxn04XhB3IS2qLKOvVvLKXvNIgMWtag96LHVrKphIIlDecXDaUKIr2PhOlQkH5KtKnTfqav6xhpz004aWNhzyu'; // 替换成你的 Stripe 公钥
+  logger.i("BackendService.instance.init start...");
+
+  //初始化后端服务，里面会根据config.dart初始化不同的后端服务
+  await BackendService.instance.init();
+
+  logger.i("BackendService.instance.init done");
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
@@ -32,6 +40,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => AppStateProvider.instance),
         ChangeNotifierProvider(create: (_) => UserProvider.instance),
         ChangeNotifierProvider(create: (_) => SettingsProvider.instance),
         ChangeNotifierProvider(create: (_) => ThemeProvider.instance),
@@ -48,19 +57,31 @@ class MyApp extends StatefulWidget {
   State<StatefulWidget> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _initializeApp();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {}
   }
 
   Future<bool> _initializeApp() async {
-    int count = 0;
-
     // 初始化应用信息
+    await AppStateProvider.instance.load();
     await SettingsProvider.instance.load();
     await UserProvider.instance.load();
     await ThemeProvider.instance.load();

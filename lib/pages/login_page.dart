@@ -1,6 +1,7 @@
-import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/l10n/app_localizations.dart';
+import '../models/user_session.dart';
+import '../providers/app_state_provider.dart';
 import '../providers/user_provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -14,10 +15,38 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+
   bool _isLogin = true;
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final state = context.read<AppStateProvider>();
+    _emailController = TextEditingController(text: state.lastUserEmail);
+    _passwordController = TextEditingController(text: state.lastUserPassword);
+
+    _emailController.addListener(() {
+      // 每次文本改变，更新 provider
+      state.lastUserEmail = _emailController.text;
+    });
+
+    _passwordController.addListener(() {
+      // 每次文本改变，更新 provider
+      state.lastUserPassword = _passwordController.text;
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -31,44 +60,58 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  /// 登录
+  Future<void> _login() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    if (userProvider.isLoggedIn) {
+      _showSuccess("已登录");
+      return;
+    }
+
+    final UserSession? user = await userProvider.login(
+      _emailController.text,
+      _passwordController.text,
+    );
+    if (user == null) {
+      _showError("登录失败");
+      return;
+    }
+    _showSuccess("登录成功");
+    userProvider.navigateTo("/home");
+  }
+
+  /// 注册
+  Future<void> _register() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final UserSession? user = await userProvider.signUp(
+      _emailController.text,
+      _passwordController.text,
+    );
+    if (user == null) {
+      _showError("reg失败");
+    } else {
+      _showSuccess("reg成功");
+      userProvider.navigateTo("/home");
+    }
+  }
+
   Future<void> _handleEmailAuth() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-
     setState(() => _isLoading = true);
 
     try {
       if (_isLogin) {
-        if (await userProvider.isLoggedIn()) { 
-          return;
-        }
-        final User? user = await userProvider.login(
-          _emailController.text,
-          _passwordController.text,
-        );
-        if (user == null) {
-          _showError("登录失败");
-          return;
-        }
-        _showSuccess("登录成功");
-        userProvider.navigateTo("/home");
+        await _login();
       } else {
-        final User? user = await userProvider.signUp(
-          _emailController.text,
-          _passwordController.text,
-        );
-        if (user == null) {
-          _showError("reg失败");
-        } else {
-          _showSuccess("reg成功");
-          userProvider.navigateTo("/home");
-        }
+        await _register();
       }
 
       // _showError(result['message']);
+    } catch (e) {
+      print("login error $e");
+      _showError("登录失败,$e");
     } finally {
       setState(() => _isLoading = false);
     }
@@ -94,14 +137,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<UserProvider>(context);
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -139,95 +177,101 @@ class _LoginPageState extends State<LoginPage> {
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
                           const SizedBox(height: 24),
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  controller: _emailController,
-                                  decoration: InputDecoration(
-                                    labelText: AppLocalizations.of(
-                                      context,
-                                    )!.email,
-                                    prefixIcon: Icon(Icons.email),
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return AppLocalizations.of(
-                                        context,
-                                      )!.pleaseInputEmailAddress;
-                                    }
-                                    if (!RegExp(
-                                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                                    ).hasMatch(value)) {
-                                      return AppLocalizations.of(
-                                        context,
-                                      )!.pleaseInputValidEmailAddress;
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                const SizedBox(height: 16),
-                                TextFormField(
-                                  controller: _passwordController,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    labelText: AppLocalizations.of(
-                                      context,
-                                    )!.password,
-                                    prefixIcon: Icon(Icons.lock),
-                                  ),
-                                  keyboardType: TextInputType.visiblePassword,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return AppLocalizations.of(
-                                        context,
-                                      )!.pleaseInputPassword;
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                const SizedBox(height: 16),
-                                const SizedBox(height: 16),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: ElevatedButton(
-                                    onPressed: _isLoading
-                                        ? null
-                                        : _handleEmailAuth,
-                                    child: _isLoading
-                                        ? const CircularProgressIndicator()
-                                        : Text(
-                                            _isLogin
-                                                ? AppLocalizations.of(
-                                                    context,
-                                                  )!.login
-                                                : AppLocalizations.of(
-                                                    context,
-                                                  )!.register,
-                                          ),
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _isLogin = !_isLogin;
-                                    });
-                                  },
-                                  child: Text(
-                                    _isLogin
-                                        ? AppLocalizations.of(
+                          Consumer<AppStateProvider>(
+                            builder: (context, appState, child) {
+                              return Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      controller: _emailController, 
+                                      decoration: InputDecoration(
+                                        labelText: AppLocalizations.of(
+                                          context,
+                                        )!.email,
+                                        prefixIcon: Icon(Icons.email),
+                                      ),
+                                      keyboardType: TextInputType.emailAddress,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return AppLocalizations.of(
                                             context,
-                                          )!.noAccount
-                                        : AppLocalizations.of(
+                                          )!.pleaseInputEmailAddress;
+                                        }
+                                        if (!RegExp(
+                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                        ).hasMatch(value)) {
+                                          return AppLocalizations.of(
                                             context,
-                                          )!.haveAccount,
-                                  ),
+                                          )!.pleaseInputValidEmailAddress;
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    const SizedBox(height: 16),
+                                    TextFormField(
+                                      controller: _passwordController, 
+                                      obscureText: true,
+                                      decoration: InputDecoration(
+                                        labelText: AppLocalizations.of(
+                                          context,
+                                        )!.password,
+                                        prefixIcon: Icon(Icons.lock),
+                                      ),
+                                      keyboardType:
+                                          TextInputType.visiblePassword,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return AppLocalizations.of(
+                                            context,
+                                          )!.pleaseInputPassword;
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    const SizedBox(height: 16),
+                                    const SizedBox(height: 16),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        onPressed: _isLoading
+                                            ? null
+                                            : _handleEmailAuth,
+                                        child: _isLoading
+                                            ? const CircularProgressIndicator()
+                                            : Text(
+                                                _isLogin
+                                                    ? AppLocalizations.of(
+                                                        context,
+                                                      )!.login
+                                                    : AppLocalizations.of(
+                                                        context,
+                                                      )!.register,
+                                              ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _isLogin = !_isLogin;
+                                        });
+                                      },
+                                      child: Text(
+                                        _isLogin
+                                            ? AppLocalizations.of(
+                                                context,
+                                              )!.noAccount
+                                            : AppLocalizations.of(
+                                                context,
+                                              )!.haveAccount,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
+
                           // ..._build3rdLoginButtons(),
                         ],
                       ),
