@@ -108,6 +108,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get password => 'Password';
 
   @override
+  String get pricing => 'Pricing';
+
+  @override
   String get register => 'Register';
 
   @override
@@ -124,6 +127,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings => 'Settings';
+
+  @override
+  String get subscribe => 'Subscribe';
+
+  @override
+  String get subscriptionStatus => 'Subscription Status';
 
   @override
   String get success => 'Success';
@@ -151,6 +160,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get version => 'Version';
+
+  @override
+  String get vip => 'VIP';
 
   @override
   String get yes => 'Yes';

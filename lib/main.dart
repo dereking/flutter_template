@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import '/pages/payment/subscription_page.dart';
 import '/services/backend_service.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -16,6 +16,9 @@ import './layouts/wide_screen_layout.dart';
 import './pages/about_page.dart';
 import './pages/settings_page.dart';
 import 'pages/payment/payment_page.dart';
+import 'pages/payment/plans_page.dart';
+import 'pages/payment/pricing_page.dart';
+import 'pages/payment/subscription_screen.dart';
 import 'providers/app_state_provider.dart';
 import 'providers/user_provider.dart';
 import 'logger.dart';
@@ -198,7 +201,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     "/settings": SettingsPage(),
     "/about": AboutPage(),
     "/login": LoginPage(),
+    "/plans": PlansPage(),
+    "/pricing": PricingPage(),
     "/subscription": SubscriptionPage(),
+    "/subscriptionScreen": SubscriptionScreen(),
     "/payment": PaymentPage(),
   };
 

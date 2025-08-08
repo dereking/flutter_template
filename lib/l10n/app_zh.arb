@@ -132,6 +132,10 @@
   "@password": {
     "description": "密码输入框标签"
   },
+  "pricing": "定价",
+  "@pricing": {
+    "description": "定价页面标题"
+  },
   "register": "注册",
   "@register": {
     "description": "注册操作按钮"
@@ -155,6 +159,14 @@
   "settings": "设置",
   "@settings": {
     "description": "设置页面标题"
+  },
+  "subscribe": "订阅",
+  "@subscribe": {
+    "description": "订阅操作按钮"
+  },
+  "subscriptionStatus": "订阅状态",
+  "@subscriptionStatus": {
+    "description": "订阅状态页面标题"
   },
   "success": "成功",
   "@success": {
@@ -191,6 +203,10 @@
   "version": "版本",
   "@version": {
     "description": "版本信息"
+  },
+  "vip": "VIP",
+  "@vip": {
+    "description": "VIP等级"
   },
   "yes": "是",
   "@yes": {

@@ -1,38 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:flutter_stripe/flutter_stripe.dart' hide Card;
 
-class PaymentPage extends StatelessWidget { 
+import '../../services/stripe_service.dart';
 
-  const PaymentPage({super.key });
+class PaymentPage extends StatelessWidget {
+  const PaymentPage({super.key});
 
   Future<void> handlePayment(BuildContext context) async {
     try {
-      await Stripe.instance.initPaymentSheet(
-        paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: "clientSecret",
-          merchantDisplayName: 'Your App Name',
-        ),
-      );
+      await StripeService().createSubscription('monthly', 'pm_card_visa');
 
-      await Stripe.instance.presentPaymentSheet();
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('支付成功')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('支付成功')));
     } catch (e) {
       print('支付失败: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('支付失败')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('支付失败')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ElevatedButton(
-        onPressed: () => handlePayment(context),
-        child: Text('支付'),
+      child: Card(
+        margin: const EdgeInsets.all(16),
+
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('支付金额: 100元 人民币'),
+            const Text('支付方式:  stripe'),
+
+            ElevatedButton(
+              onPressed: () => handlePayment(context),
+              child: Text('支付'),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -108,6 +108,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get password => '密码';
 
   @override
+  String get pricing => '定价';
+
+  @override
   String get register => '注册';
 
   @override
@@ -124,6 +127,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settings => '设置';
+
+  @override
+  String get subscribe => '订阅';
+
+  @override
+  String get subscriptionStatus => '订阅状态';
 
   @override
   String get success => '成功';
@@ -151,6 +160,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get version => '版本';
+
+  @override
+  String get vip => 'VIP';
 
   @override
   String get yes => '是';

@@ -132,6 +132,10 @@
   "@password": {
     "description": "Label for password field"
   },
+  "pricing": "Pricing",
+  "@pricing": {
+    "description": "Label for pricing section"
+  },
   "register": "Register",
   "@register": {
     "description": "Label for register action"
@@ -155,6 +159,14 @@
   "settings": "Settings",
   "@settings": {
     "description": "Label for settings section"
+  },
+  "subscribe": "Subscribe",
+  "@subscribe": {
+    "description": "Label for subscribe action"
+  },
+  "subscriptionStatus": "Subscription Status",
+  "@subscriptionStatus": {
+    "description": "Label for subscription status section"
   },
   "success": "Success",
   "@success": {
@@ -191,6 +203,10 @@
   "version": "Version",
   "@version": {
     "description": "Label for version information"
+  },
+  "vip": "VIP",
+  "@vip": {
+    "description": "Label for VIP section"
   },
   "yes": "Yes",
   "@yes": {

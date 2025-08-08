@@ -111,7 +111,10 @@ class _TopAppBarState extends State<TopAppBar> {
               Provider.of<UserProvider>(context, listen: false).logout();
             },
             onMySubscription: () {
-              Provider.of<UserProvider>(context, listen: false).navigateTo("/subscription");
+              Provider.of<UserProvider>(
+                context,
+                listen: false,
+              ).navigateTo("/plans");
             },
           ),
           MiniIconButton(

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../services/stripe_service.dart';
 import '/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -35,7 +36,7 @@ class UserProvider extends ChangeNotifier {
   FinanceStat? financeStat;
 
   // 当前页面
-  String _curPage = "/default";
+  String _curPage = "/home";
   String get curPage => _curPage;
   set curPage(String page) {
     if (_curPage != page) {
@@ -48,6 +49,11 @@ class UserProvider extends ChangeNotifier {
   Future<bool> load() async {
     try {
       _userSession = await BackendService.instance.syncSession();
+
+      //TODO: 从 stripe 获取 financeStat
+      financeStat?.currentPlan = await StripeService.instance.getCurrentPlan();
+      // financeStat?.isSubscribed = await StripeService.instance.get();
+
       notifyListeners();
     } catch (e) {
       debugPrint("UserProvider load error: $e");

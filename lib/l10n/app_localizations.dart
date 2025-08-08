@@ -293,6 +293,12 @@ abstract class AppLocalizations {
   /// **'Password'**
   String get password;
 
+  /// Label for pricing section
+  ///
+  /// In en, this message translates to:
+  /// **'Pricing'**
+  String get pricing;
+
   /// Label for register action
   ///
   /// In en, this message translates to:
@@ -328,6 +334,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
+
+  /// Label for subscribe action
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get subscribe;
+
+  /// Label for subscription status section
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription Status'**
+  String get subscriptionStatus;
 
   /// Success message
   ///
@@ -382,6 +400,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version'**
   String get version;
+
+  /// Label for VIP section
+  ///
+  /// In en, this message translates to:
+  /// **'VIP'**
+  String get vip;
 
   /// Positive response
   ///
