@@ -23,15 +23,12 @@ class StripeService {
     return _instance!;
   }
 
-  // 订阅计划ID（在Stripe控制台中创建）
-  static const Map<String, String> _plans = {
-    'monthly': 'price_1Nxxxxxxxxx', // 月度订阅价格ID
-    'yearly': 'price_1Oyyyyyyyyy', // 年度订阅价格ID
-  };
-
   // 初始化Stripe
   Future<void> init() async {
     Stripe.publishableKey = stripePublishableKey;
+    Stripe.merchantIdentifier = stripeMerchantIdentifier;
+    Stripe.setReturnUrlSchemeOnAndroid = true;
+
     await Stripe.instance.applySettings();
   }
 
@@ -59,7 +56,7 @@ class StripeService {
         Uri.parse('$stripeMyHostBaseUrl/create-subscription'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
-          'planId': _plans[planType],
+          'planId': stripeProducts[planType]!['price'],
           'paymentMethodId': paymentMethodId,
         }),
       );
@@ -125,4 +122,69 @@ class StripeService {
     // );
     return false;
   }
+
+  // // 创建Checkout Session
+  // Future<String?> createCheckoutSession({
+  //   required String priceId, // 产品价格ID
+  //   required String successUrl, // 支付成功后跳转的URL
+  //   required String cancelUrl, // 支付取消后跳转的URL
+  // }) async {
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse('https://api.stripe.com/v1/checkout/sessions'),
+  //       headers: {
+  //         'Authorization': 'Bearer $_stripeSecretKey',
+  //         'Content-Type': 'application/x-www-form-urlencoded',
+  //       },
+  //       body: {
+  //         'payment_method_types[]': 'card',
+  //         'line_items[0][price]': priceId,
+  //         'line_items[0][quantity]': '1',
+  //         'mode': 'payment',
+  //         'success_url': successUrl,
+  //         'cancel_url': cancelUrl,
+  //       },
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       final session = json.decode(response.body);
+  //       return session['url']; // 返回托管支付页面的URL
+  //     } else {
+  //       throw Exception('Failed to create checkout session: ${response.body}');
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Error creating checkout session: $e');
+  //     return null;
+  //   }
+  // }
+
+  // // 启动Stripe托管支付页面
+  // Future<void> launchCheckoutPage({
+  //   required String priceId,
+  //   required BuildContext context,
+  // }) async {
+  //   // 定义支付成功和取消后的回调URL
+  //   // 实际项目中应该使用你的后端URL或深度链接
+  //   const String successUrl = 'yourapp://success';
+  //   const String cancelUrl = 'yourapp://cancel';
+
+  //   // 创建Checkout Session
+  //   final checkoutUrl = await createCheckoutSession(
+  //     priceId: priceId,
+  //     successUrl: successUrl,
+  //     cancelUrl: cancelUrl,
+  //   );
+
+  //   if (checkoutUrl != null) {
+  //     // 启动支付页面
+  //     if (await canLaunchUrl(Uri.parse(checkoutUrl))) {
+  //       await launchUrl(
+  //         Uri.parse(checkoutUrl),
+  //         mode: LaunchMode.externalApplication,
+  //       );
+  //     } else {
+  //       throw Exception('Could not launch $checkoutUrl');
+  //     }
+  //   }
+  // }
 }

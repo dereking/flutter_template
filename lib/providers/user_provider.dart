@@ -35,6 +35,9 @@ class UserProvider extends ChangeNotifier {
 
   FinanceStat? financeStat;
 
+  /// 选中想购买的产品ID
+  String? toBuyProductId;
+
   // 当前页面
   String _curPage = "/home";
   String get curPage => _curPage;

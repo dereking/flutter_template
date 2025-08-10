@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' hide Card;
+import 'package:provider/provider.dart';
 
+import '../../providers/user_provider.dart';
 import '../../services/stripe_service.dart';
 
-class PaymentPage extends StatelessWidget {
+class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
 
-  Future<void> handlePayment(BuildContext context) async {
-    try {
-      await StripeService().createSubscription('monthly', 'pm_card_visa');
+  @override
+  State<PaymentPage> createState() => _PaymentPageState();
+}
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('支付成功')));
-    } catch (e) {
-      print('支付失败: $e');
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('支付失败')));
-    }
+class _PaymentPageState extends State<PaymentPage> {
+  bool _isProcessing = false;
+
+  String? _productId;
+  String? _priceId;
+  String? _planId;
+
+  @override
+  void initState() {
+    super.initState();
+    final pro = Provider.of<UserProvider>(context, listen: false);
+    _productId = pro.toBuyProductId;
   }
 
   @override
@@ -41,5 +46,41 @@ class PaymentPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> handlePayment(BuildContext context) async {
+    try {
+      await StripeService().createSubscription('monthly', 'pm_card_visa');
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('支付成功')));
+    } catch (e) {
+      print('支付失败: $e');
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('支付失败')));
+    }
+  }
+
+  Future<void> _startPayment() async {
+    setState(() {
+      _isProcessing = true;
+    });
+
+    try {
+      // await _checkoutService.launchCheckoutPage(
+      //   priceId: _priceId,
+      //   context: context,
+      // );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Payment failed: $e')));
+    } finally {
+      setState(() {
+        _isProcessing = false;
+      });
+    }
   }
 }

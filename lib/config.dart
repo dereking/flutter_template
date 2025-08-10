@@ -40,6 +40,11 @@ const String stripeMyHostBaseUrl = String.fromEnvironment(
   defaultValue: 'https://pay.zenkee.com/',
 );
 
+const String stripeMerchantIdentifier = String.fromEnvironment(
+  'STRIPE_MERCHANT_IDENTIFIER',
+  defaultValue: 'merchant.zenkee.com',
+);
+
 const String stripeMerchantDisplayName = String.fromEnvironment(
   'MERCHANT_DISPLAY_NAME',
   defaultValue: 'ZENKEE',
@@ -49,13 +54,19 @@ const String stripeMerchantDisplayName = String.fromEnvironment(
 const String stripeBaseUrl = 'https://api.stripe.com/v1';
 
 // 从环境变量获取Stripe密钥
-
 const String stripeSecretKey = String.fromEnvironment(
   'STRIPE_SECRET_KEY',
   defaultValue: '',
 );
 
+// 从环境变量获取Stripe发布密钥
 const String stripePublishableKey = String.fromEnvironment(
   'STRIPE_PUBLISHABLE_KEY',
   defaultValue: '',
 );
+
+// 订阅计划ID（在Stripe控制台中创建）
+const Map<String, Map<String, String>> stripeProducts = {
+  'prod_R0JDGEiPA3vbWZ': {'name': 'Riqimi', 'price': '\$9.99'}, // 月度订阅价格ID
+  'prod_R0JCKk9CTxdFqY': {'name': 'Riqimi Pro', 'price': '\$99.99'}, // 年度订阅价格ID
+};
