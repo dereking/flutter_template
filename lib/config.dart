@@ -67,6 +67,6 @@ const String stripePublishableKey = String.fromEnvironment(
 
 // 订阅计划ID（在Stripe控制台中创建）
 const Map<String, Map<String, String>> stripeProducts = {
-  'prod_R0JDGEiPA3vbWZ': {'name': 'Riqimi', 'price': '\$9.99'}, // 月度订阅价格ID
-  'prod_R0JCKk9CTxdFqY': {'name': 'Riqimi Pro', 'price': '\$99.99'}, // 年度订阅价格ID
+  'price_1Ruluo19p49AJ7Nj2kKo6rtW': {'name': 'Zenkee Demo APP Permanent', 'price': '\$49.90'},  
+  'price_1Rulti19p49AJ7NjYJDigDBL': {'name': 'Zenkee Demo App Monthly Subscription', 'price': '\$1.99/Month'},
 };

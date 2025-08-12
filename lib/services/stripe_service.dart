@@ -1,10 +1,11 @@
 import 'dart:convert';
-
-import 'package:flutter_stripe/flutter_stripe.dart';
+ 
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart'; 
+  
 
 import '../config.dart';
+import '../models/stripe/price.dart';
 
 class StripeService {
   // 单例实例
@@ -25,11 +26,26 @@ class StripeService {
 
   // 初始化Stripe
   Future<void> init() async {
-    Stripe.publishableKey = stripePublishableKey;
-    Stripe.merchantIdentifier = stripeMerchantIdentifier;
-    Stripe.setReturnUrlSchemeOnAndroid = true;
+    // Stripe.publishableKey = stripePublishableKey;
+    // Stripe.merchantIdentifier = stripeMerchantIdentifier;
+    // Stripe.setReturnUrlSchemeOnAndroid = true;
 
-    await Stripe.instance.applySettings();
+    // await Stripe.instance.applySettings();
+  }
+
+  Future<Price?> getPrice(String priceId) async {
+    print("getPrice: $stripeBaseUrl/price/$priceId");
+    final response = await http.get(
+      Uri.parse('$stripeMyHostBaseUrl/price/$priceId'),
+    );
+    if (response.statusCode == 200) {
+      final price = Price.fromJson(json.decode(response.body));
+      // final price = serializers.deserializeWith<Price>(Price.serializer, json.decode(response.body));
+      print("getPrice: $price");
+      return price;
+    } else {
+      throw Exception('Failed to load price');
+    }
   }
 
   // 检查用户是否已订阅
@@ -70,7 +86,7 @@ class StripeService {
 
       // 2. 确认支付（如果需要）
       if (result['requiresAction'] == true) {
-        await Stripe.instance.confirmPaymentSheetPayment();
+        // await Stripe.instance.confirmPaymentSheetPayment();
       }
 
       // 3. 存储订阅信息

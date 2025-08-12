@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart' hide Card;
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart'; 
+import 'package:provider/provider.dart'; 
 
+import '../../models/stripe/price.dart';
 import '../../providers/user_provider.dart';
 import '../../services/stripe_service.dart';
 
@@ -15,36 +15,47 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   bool _isProcessing = false;
 
-  String? _productId;
   String? _priceId;
-  String? _planId;
+  Price? _price;
 
   @override
   void initState() {
     super.initState();
     final pro = Provider.of<UserProvider>(context, listen: false);
-    _productId = pro.toBuyProductId;
+    _priceId = pro.toBuyPriceId;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        margin: const EdgeInsets.all(16),
+    return FutureBuilder<Price?>(
+      future: StripeService().getPrice(_priceId!),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          _price = snapshot.data;
+          return Center(
+            child: Card(
+              margin: const EdgeInsets.all(16),
 
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('支付金额: 100元 人民币'),
-            const Text('支付方式:  stripe'),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('支付金额: 100元 人民币'),
+                  const Text('支付方式:  stripe'),
 
-            ElevatedButton(
-              onPressed: () => handlePayment(context),
-              child: Text('支付'),
+                  ElevatedButton(
+                    onPressed: () => handlePayment(context),
+                    child: Text('支付'),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+      },
     );
   }
 

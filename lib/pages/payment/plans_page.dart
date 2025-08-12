@@ -21,8 +21,8 @@ class PlansPage extends StatelessWidget {
               e.value['price']!,
               () {
                 final pro = Provider.of<UserProvider>(context, listen: false);
-                pro.toBuyProductId = e.key;
-                pro.navigateTo("/payment");
+                pro.toBuyPriceId = e.key;
+                pro.navigateTo("/payment" );
               },
             );
           }).toList(),

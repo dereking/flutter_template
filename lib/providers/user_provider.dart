@@ -35,8 +35,8 @@ class UserProvider extends ChangeNotifier {
 
   FinanceStat? financeStat;
 
-  /// 选中想购买的产品ID
-  String? toBuyProductId;
+  /// 选中想购买的 priceID
+  String? toBuyPriceId;
 
   // 当前页面
   String _curPage = "/home";
@@ -121,8 +121,8 @@ class UserProvider extends ChangeNotifier {
     navigateTo("/login");
   }
 
-  void navigateTo(String route) {
-    curPage = route;
+  void navigateTo(String route, ) {
+    curPage = route; 
     notifyListeners();
   }
 
