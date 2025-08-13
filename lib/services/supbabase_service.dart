@@ -13,13 +13,19 @@ class SupabaseService implements BackendService {
   @override
   Future<UserSession?> syncSession() async {
     try {
-      if (_supabase.auth.currentUser == null) {
-        return null;
-      }
-      return fromSupabaseUser(_supabase.auth.currentUser!);
+      return loadSessionFromSupabase();
     } catch (e) {
       return null;
     }
+  }
+
+  UserSession? loadSessionFromSupabase() {
+    if (_supabase.auth.currentUser == null) {
+      return null;
+    }
+    final ret = fromSupabaseUser(_supabase.auth.currentUser!);
+    ret.token = _supabase.auth.currentSession?.accessToken;
+    return ret;
   }
 
   /// 初始化
@@ -47,7 +53,7 @@ class SupabaseService implements BackendService {
   /// [user] Supabase 用户
   ///
   /// 返回 UserSession
-  UserSession? fromSupabaseUser(User user) {
+  UserSession fromSupabaseUser(User user) {
     return UserSession(
       isLoggedIn: true,
       userId: user.id,
@@ -97,7 +103,11 @@ class SupabaseService implements BackendService {
       throw Exception('用户未登录');
     }
 
-    return fromSupabaseUser(user);
+    final ret = fromSupabaseUser(user);
+
+    ret.token = _supabase.auth.currentSession?.accessToken;
+
+    return ret;
   }
 
   /// 注销

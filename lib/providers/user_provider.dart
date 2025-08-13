@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import '../services/stripe_service.dart';
+import 'package:flutter/material.dart'; 
 import '/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -37,6 +36,7 @@ class UserProvider extends ChangeNotifier {
 
   /// 选中想购买的 priceID
   String? toBuyPriceId;
+  String referenceId = "";
 
   // 当前页面
   String _curPage = "/home";
@@ -53,9 +53,8 @@ class UserProvider extends ChangeNotifier {
     try {
       _userSession = await BackendService.instance.syncSession();
 
-      //TODO: 从 stripe 获取 financeStat
-      financeStat?.currentPlan = await StripeService.instance.getCurrentPlan();
-      // financeStat?.isSubscribed = await StripeService.instance.get();
+      generateReferenceId();
+ 
 
       notifyListeners();
     } catch (e) {
@@ -63,6 +62,10 @@ class UserProvider extends ChangeNotifier {
       return false;
     }
     return true;
+  }
+
+  void generateReferenceId() {
+    referenceId = DateTime.now().millisecondsSinceEpoch.toString();
   }
 
   /// 注册

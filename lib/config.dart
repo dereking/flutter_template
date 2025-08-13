@@ -37,7 +37,8 @@ const String supabaseServiceRoleKey = String.fromEnvironment(
 //stripe config
 const String stripeMyHostBaseUrl = String.fromEnvironment(
   'STRIPE_MY_HOST_URL',
-  defaultValue: 'https://pay.zenkee.com/',
+  defaultValue: 'http://127.0.0.1:4242/v1',
+  // defaultValue: 'https://pay.zenkee.com/v1',
 );
 
 const String stripeMerchantIdentifier = String.fromEnvironment(
@@ -52,17 +53,12 @@ const String stripeMerchantDisplayName = String.fromEnvironment(
 
 // Stripe API基础URL
 const String stripeBaseUrl = 'https://api.stripe.com/v1';
-
-// 从环境变量获取Stripe密钥
-const String stripeSecretKey = String.fromEnvironment(
-  'STRIPE_SECRET_KEY',
-  defaultValue: '',
-);
+ 
 
 // 从环境变量获取Stripe发布密钥
 const String stripePublishableKey = String.fromEnvironment(
   'STRIPE_PUBLISHABLE_KEY',
-  defaultValue: '',
+  defaultValue: 'pk_test_51Rulrp19p49AJ7Njpor3w1EjE19pyD13RrzdYGqRgSMS0o9aHEqEF2UYY69xfH6VK0IVGifHiwpli2v9xnPBCEwG00f1kspItm',
 );
 
 // 订阅计划ID（在Stripe控制台中创建）
