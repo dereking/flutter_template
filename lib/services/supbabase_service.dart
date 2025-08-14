@@ -23,8 +23,7 @@ class SupabaseService implements BackendService {
     if (_supabase.auth.currentUser == null) {
       return null;
     }
-    final ret = fromSupabaseUser(_supabase.auth.currentUser!);
-    ret.token = _supabase.auth.currentSession?.accessToken;
+    final ret = fromSupabaseUser(_supabase.auth.currentUser!); 
     return ret;
   }
 
@@ -36,7 +35,7 @@ class SupabaseService implements BackendService {
     // 初始化 Supabase
     await Supabase.initialize(
       url: supabaseUrl, // Supabase 项目 URL
-      anonKey: supabaseAnonKey, // Supabase 匿名公钥
+      anonKey: supabaseAnonKey, // Supabase 匿名公钥 
     );
 
     logger.i("SupabaseService.init done");
@@ -103,11 +102,15 @@ class SupabaseService implements BackendService {
       throw Exception('用户未登录');
     }
 
-    final ret = fromSupabaseUser(user);
+    final session = fromSupabaseUser(user);  
+    return session;
+  }
 
-    ret.token = _supabase.auth.currentSession?.accessToken;
 
-    return ret;
+  @override 
+  Future<String?>  get token async {
+    final s = _supabase.auth.currentSession ;
+    return s?.accessToken;
   }
 
   /// 注销

@@ -293,6 +293,18 @@ abstract class AppLocalizations {
   /// **'Password'**
   String get password;
 
+  /// Label for pay action
+  ///
+  /// In en, this message translates to:
+  /// **'Pay'**
+  String get pay;
+
+  /// Label for paid successful
+  ///
+  /// In en, this message translates to:
+  /// **'Paid Successful!'**
+  String get paidSuccessful;
+
   /// Label for pricing section
   ///
   /// In en, this message translates to:
@@ -406,6 +418,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'VIP'**
   String get vip;
+
+  /// Label for waiting payment state
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting payment...'**
+  String get waitingPayment;
 
   /// Positive response
   ///

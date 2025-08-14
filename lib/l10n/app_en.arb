@@ -132,6 +132,14 @@
   "@password": {
     "description": "Label for password field"
   },
+  "pay": "Pay",
+  "@pay": {
+    "description": "Label for pay action"
+  },
+  "paidSuccessful": "Paid Successful!",
+  "@paidSuccessful" : {
+    "description": "Label for paid successful"
+  },
   "pricing": "Pricing",
   "@pricing": {
     "description": "Label for pricing section"
@@ -207,6 +215,10 @@
   "vip": "VIP",
   "@vip": {
     "description": "Label for VIP section"
+  }, 
+  "waitingPayment": "Waiting payment...",
+  "@waitingPayment": {
+    "description": "Label for waiting payment state"
   },
   "yes": "Yes",
   "@yes": {

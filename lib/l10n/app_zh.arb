@@ -132,6 +132,14 @@
   "@password": {
     "description": "密码输入框标签"
   },
+  "pay": "支付",
+  "@pay": {
+    "description": "支付操作按钮"
+  },
+  "paidSuccessful": "支付成功!",
+  "@paidSuccessful" : {
+    "description": "支付成功标签。"
+  },
   "pricing": "定价",
   "@pricing": {
     "description": "定价页面标题"
@@ -207,6 +215,10 @@
   "vip": "VIP",
   "@vip": {
     "description": "VIP等级"
+  },
+  "waitingPayment": "等待支付...",
+  "@waitingPayment": {
+    "description": "等待支付状态"
   },
   "yes": "是",
   "@yes": {

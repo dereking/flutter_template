@@ -108,6 +108,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get password => 'Password';
 
   @override
+  String get pay => 'Pay';
+
+  @override
+  String get paidSuccessful => 'Paid Successful!';
+
+  @override
   String get pricing => 'Pricing';
 
   @override
@@ -163,6 +169,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vip => 'VIP';
+
+  @override
+  String get waitingPayment => 'Waiting payment...';
 
   @override
   String get yes => 'Yes';

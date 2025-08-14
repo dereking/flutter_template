@@ -108,6 +108,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get password => '密码';
 
   @override
+  String get pay => '支付';
+
+  @override
+  String get paidSuccessful => '支付成功!';
+
+  @override
   String get pricing => '定价';
 
   @override
@@ -163,6 +169,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get vip => 'VIP';
+
+  @override
+  String get waitingPayment => '等待支付...';
 
   @override
   String get yes => '是';

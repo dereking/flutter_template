@@ -16,7 +16,7 @@ abstract class BackendService {
       return _instance!;
     }
   }
- 
+
   // 同步登录状态
   Future<UserSession?> syncSession();
 
@@ -26,6 +26,7 @@ abstract class BackendService {
   // user 用户
   Future<UserSession?> login(String email, String password);
   Future<UserSession?> signUp(String email, String password);
+  Future<String?> get token;
   Future<void> logout();
 
   Future<FinanceStat?> loadFinanceStat();

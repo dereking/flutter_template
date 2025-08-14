@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../components/global_snackbar.dart';
 import '../../config.dart';
 
 class SubscriptionScreen extends StatefulWidget {
@@ -79,9 +80,15 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
 
       return data['id'] as String;
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(e.toString())));
+
+      GlobalSnackbar.show(
+        message: "$e",
+        icon: Icons.notifications,
+        backgroundColor: Colors.blue,
+      );
+      // ScaffoldMessenger.of(
+      //   context,
+      // ).showSnackBar(SnackBar(content: Text(e.toString())));
       return null;
     }
   }
@@ -120,16 +127,27 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       await prefs.setString('currentPlan', planType);
 
       // 4. 显示成功消息并更新UI
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('订阅 $planType 成功!')));
+      GlobalSnackbar.show(
+        message: "订阅 $planType 成功!",
+        icon: Icons.notifications,
+        backgroundColor: Colors.blue,
+      );
+      // ScaffoldMessenger.of(
+      //   context,
+      // ).showSnackBar(SnackBar(content: Text('订阅 $planType 成功!')));
 
       _clearCardForm();
       await _checkSubscriptionStatus();
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('订阅失败: ${e.toString()}')));
+
+      GlobalSnackbar.show(
+        message: "$e",
+        icon: Icons.notifications,
+        backgroundColor: Colors.blue,
+      );  
+      // ScaffoldMessenger.of(
+      //   context,
+      // ).showSnackBar(SnackBar(content: Text('订阅失败: ${e.toString()}')));
     } finally {
       setState(() {
         _isLoading = false;
@@ -159,15 +177,26 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       await prefs.setBool('isSubscribed', false);
       await prefs.remove('currentPlan');
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('订阅已取消')));
+      GlobalSnackbar.show(
+        message: "订阅已取消",
+        icon: Icons.notifications,
+        backgroundColor: Colors.blue,
+      );
+      // ScaffoldMessenger.of(
+      //   context,
+      // ).showSnackBar(const SnackBar(content: Text('订阅已取消')));
 
       await _checkSubscriptionStatus();
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('取消订阅失败: ${e.toString()}')));
+
+      GlobalSnackbar.show(
+        message: "$e",
+        icon: Icons.notifications,
+        backgroundColor: Colors.blue,
+      );
+      // ScaffoldMessenger.of(
+      //   context,
+      // ).showSnackBar(SnackBar(content: Text('取消订阅失败: ${e.toString()}')));
     } finally {
       setState(() {
         _isLoading = false;

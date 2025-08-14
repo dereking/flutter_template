@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/global_snackbar.dart';
 import '/l10n/app_localizations.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../models/user_session.dart';
@@ -50,15 +51,26 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.red),
-    );
+
+      GlobalSnackbar.show(
+        message: message,
+        icon: Icons.error,
+        backgroundColor: Colors.red,
+      );
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(content: Text(message), backgroundColor: Colors.red),
+    // );
   }
 
   void _showSuccess(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.green),
-    );
+      GlobalSnackbar.show(
+        message: message,
+        icon: Icons.notifications,
+        backgroundColor: Colors.blue,
+      );
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(content: Text(message), backgroundColor: Colors.green),
+    // );
   }
 
   /// 登录

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import '/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -54,7 +54,6 @@ class UserProvider extends ChangeNotifier {
       _userSession = await BackendService.instance.syncSession();
 
       generateReferenceId();
- 
 
       notifyListeners();
     } catch (e) {
@@ -65,7 +64,8 @@ class UserProvider extends ChangeNotifier {
   }
 
   void generateReferenceId() {
-    referenceId = DateTime.now().millisecondsSinceEpoch.toString();
+    final t = DateTime.now().millisecondsSinceEpoch;
+    referenceId = t.toRadixString(16);
   }
 
   /// 注册
@@ -124,8 +124,8 @@ class UserProvider extends ChangeNotifier {
     navigateTo("/login");
   }
 
-  void navigateTo(String route, ) {
-    curPage = route; 
+  void navigateTo(String route) {
+    curPage = route;
     notifyListeners();
   }
 

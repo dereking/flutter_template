@@ -98,4 +98,11 @@ class AppwriteService implements BackendService {
       print("loadFinanceStat error $e");
     }
   }
+  
+  @override 
+  Future<String?>  get token async {
+    final s =   await _account.getSession(sessionId: 'current');
+    return s.secret;
+  }
+  
 }
