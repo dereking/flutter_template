@@ -15,7 +15,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get add => 'Add';
 
   @override
-  String get appDescription => 'Listenor is a powerful tool for managing and interacting with your audio content.';
+  String get appDescription =>
+      'Listenor is a powerful tool for managing and interacting with your audio content.';
 
   @override
   String get appTitle => 'Listenor';
@@ -31,6 +32,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirmPassword => 'Confirm Password';
+
+  @override
+  String contactEmail(String email) {
+    return 'Contact Email: $email';
+  }
+
+  @override
+  String get contactUsPlease => 'Contact us';
 
   @override
   String get copyToClipboard => 'Copy to Clipboard';
@@ -105,19 +114,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get orLoginWithThose => 'Or login with those accounts';
 
   @override
+  String get paidSuccessful => 'Paid Successful!';
+
+  @override
   String get password => 'Password';
 
   @override
   String get pay => 'Pay';
 
   @override
-  String get paidSuccessful => 'Paid Successful!';
+  String paymentAmountTotal(double PriceUnitAmount, String PriceCurrency) {
+    return 'Payment total: $PriceUnitAmount $PriceCurrency';
+  }
+
+  @override
+  String get paymentStatusCheckTimeout => 'Payment status check timeout';
+
+  @override
+  String get pleaseInputEmailAddress => 'Please input email address';
+
+  @override
+  String get pleaseInputPassword => 'Please input password';
+
+  @override
+  String get pleaseInputValidEmailAddress => 'Please input valid email address';
+
+  @override
+  String get pleaseInputValidPassword => 'Please input valid password';
+
+  @override
+  String get priceOrProductNotFound => 'Price or Product not found';
 
   @override
   String get pricing => 'Pricing';
 
   @override
   String get register => 'Register';
+
+  @override
+  String get reopenPaymentPage => 'Reopen payment page';
 
   @override
   String get retry => 'Retry';
@@ -148,18 +183,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get theme => 'Theme';
-
-  @override
-  String get pleaseInputEmailAddress => 'Please input email address';
-
-  @override
-  String get pleaseInputValidEmailAddress => 'Please input valid email address';
-
-  @override
-  String get pleaseInputPassword => 'Please input password';
-
-  @override
-  String get pleaseInputValidPassword => 'Please input valid password';
 
   @override
   String get update => 'Update';

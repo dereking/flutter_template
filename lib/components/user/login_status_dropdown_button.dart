@@ -162,6 +162,7 @@ class LoginStatusDropdownButton extends StatelessWidget {
     return PopupMenuItem(
       value: value,
       child: Tooltip(
+        waitDuration: Duration(milliseconds: 500),
         richMessage: value.isNotEmpty
             ? TextSpan(
                 text: "$value \n\n",

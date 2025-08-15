@@ -66,3 +66,10 @@ const Map<String, Map<String, String>> stripeProducts = {
   'price_1Ruluo19p49AJ7Nj2kKo6rtW': {'name': 'Zenkee Demo APP Permanent', 'price': '\$49.90'},  
   'price_1Rulti19p49AJ7NjYJDigDBL': {'name': 'Zenkee Demo App Monthly Subscription', 'price': '\$1.99/Month'},
 };
+
+
+//系统管理员邮箱
+const String adminEmail = String.fromEnvironment(
+  'ADMIN_EMAIL',
+  defaultValue: 'kedong@zenkee.com',
+);

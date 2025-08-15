@@ -32,6 +32,19 @@
   "@confirmPassword": {
     "description": "确认密码输入框标签"
   },
+  "contactEmail": "联系方式: {email}",
+  "@contactEmail": {
+    "description": "Contact email display text with email parameter",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "contactUsPlease": "联系我们",
+  "@contactUsPlease": {
+    "description": "联系我们标签"
+  },
   "copyToClipboard": "复制到剪贴板",
   "@copyToClipboard": {
     "description": "复制到剪贴板操作"
@@ -128,6 +141,10 @@
   "@orLoginWithThose": {
     "description": "提示登录操作"
   },
+  "paidSuccessful": "支付成功!",
+  "@paidSuccessful": {
+    "description": "支付成功标签。"
+  },
   "password": "密码",
   "@password": {
     "description": "密码输入框标签"
@@ -136,10 +153,36 @@
   "@pay": {
     "description": "支付操作按钮"
   },
-  "paidSuccessful": "支付成功!",
-  "@paidSuccessful" : {
-    "description": "支付成功标签。"
+  "paymentAmountTotal": "支付金额: {PriceUnitAmount} {PriceCurrency}",
+  "@paymentAmountTotal": {
+    "description": "payment total amount in currency",
+    "placeholders": {
+      "PriceUnitAmount": {
+        "type": "double"
+      },
+      "PriceCurrency": {
+        "type": "String"
+      }
+    }
   },
+  "paymentStatusCheckTimeout": "Payment status check timeout",
+  "pleaseInputEmailAddress": "请输入邮箱",
+  "@pleaseInputEmailAddress": {
+    "description": "提示输入邮箱"
+  },
+  "pleaseInputPassword": "请输入密码",
+  "@pleaseInputPassword": {
+    "description": "提示输入密码"
+  },
+  "pleaseInputValidEmailAddress": "请输入有效的邮箱",
+  "@pleaseInputValidEmailAddress": {
+    "description": "提示输入有效的邮箱"
+  },
+  "pleaseInputValidPassword": "请输入有效的密码",
+  "@pleaseInputValidPassword": {
+    "description": "提示输入有效的密码"
+  },
+  "priceOrProductNotFound": "Price or Product not found",
   "pricing": "定价",
   "@pricing": {
     "description": "定价页面标题"
@@ -147,6 +190,10 @@
   "register": "注册",
   "@register": {
     "description": "注册操作按钮"
+  },
+  "reopenPaymentPage": "重新打开支付页面",
+  "@reopenPaymentPage": {
+    "description": "重新打开支付页面"
   },
   "retry": "重试",
   "@retry": {
@@ -187,22 +234,6 @@
   "theme": "主题",
   "@theme": {
     "description": "主题设置选项"
-  },
-  "pleaseInputEmailAddress": "请输入邮箱",
-  "@pleaseInputEmailAddress": {
-    "description": "提示输入邮箱"
-  },
-  "pleaseInputValidEmailAddress": "请输入有效的邮箱",
-  "@pleaseInputValidEmailAddress": {
-    "description": "提示输入有效的邮箱"
-  },
-  "pleaseInputPassword": "请输入密码",
-  "@pleaseInputPassword": {
-    "description": "提示输入密码"
-  },
-  "pleaseInputValidPassword": "请输入有效的密码",
-  "@pleaseInputValidPassword": {
-    "description": "提示输入有效的密码"
   },
   "update": "更新",
   "@update": {

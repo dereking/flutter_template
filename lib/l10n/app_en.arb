@@ -32,6 +32,19 @@
   "@confirmPassword": {
     "description": "Label for password confirmation field"
   },
+  "contactEmail": "Contact Email: {email}",
+  "@contactEmail": {
+    "description": "Contact email display text with email parameter",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "contactUsPlease": "Contact us",
+  "@contactUsPlease": {
+    "description": "Contact us label"
+  },
   "copyToClipboard": "Copy to Clipboard",
   "@copyToClipboard": {
     "description": "Label for copy to clipboard action"
@@ -128,6 +141,10 @@
   "@orLoginWithThose": {
     "description": "Prompt for login with other accounts"
   },
+  "paidSuccessful": "Paid Successful!",
+  "@paidSuccessful": {
+    "description": "Label for paid successful"
+  },
   "password": "Password",
   "@password": {
     "description": "Label for password field"
@@ -136,10 +153,36 @@
   "@pay": {
     "description": "Label for pay action"
   },
-  "paidSuccessful": "Paid Successful!",
-  "@paidSuccessful" : {
-    "description": "Label for paid successful"
+  "paymentAmountTotal": "Payment total: {PriceUnitAmount} {PriceCurrency}",
+  "@paymentAmountTotal": {
+    "description": "payment total amount in currency",
+    "placeholders": {
+      "PriceUnitAmount": {
+        "type": "double"
+      },
+      "PriceCurrency": {
+        "type": "String"
+      }
+    }
   },
+  "paymentStatusCheckTimeout": "Payment status check timeout",
+  "pleaseInputEmailAddress": "Please input email address",
+  "@pleaseInputEmailAddress": {
+    "description": "Prompt for email address input"
+  },
+  "pleaseInputPassword": "Please input password",
+  "@pleaseInputPassword": {
+    "description": "Prompt for password input"
+  },
+  "pleaseInputValidEmailAddress": "Please input valid email address",
+  "@pleaseInputValidEmailAddress": {
+    "description": "Prompt for valid email address input"
+  },
+  "pleaseInputValidPassword": "Please input valid password",
+  "@pleaseInputValidPassword": {
+    "description": "Prompt for valid password input"
+  },
+  "priceOrProductNotFound": "Price or Product not found",
   "pricing": "Pricing",
   "@pricing": {
     "description": "Label for pricing section"
@@ -147,6 +190,10 @@
   "register": "Register",
   "@register": {
     "description": "Label for register action"
+  },
+  "reopenPaymentPage": "Reopen payment page",
+  "@reopenPaymentPage": {
+    "description": "Reopen payment page link label"
   },
   "retry": "Retry",
   "@retry": {
@@ -188,22 +235,6 @@
   "@theme": {
     "description": "Label for theme settings"
   },
-  "pleaseInputEmailAddress": "Please input email address",
-  "@pleaseInputEmailAddress": {
-    "description": "Prompt for email address input"
-  },
-  "pleaseInputValidEmailAddress": "Please input valid email address",
-  "@pleaseInputValidEmailAddress": {
-    "description": "Prompt for valid email address input"
-  },
-  "pleaseInputPassword": "Please input password",
-  "@pleaseInputPassword": {
-    "description": "Prompt for password input"
-  },
-  "pleaseInputValidPassword": "Please input valid password",
-  "@pleaseInputValidPassword": {
-    "description": "Prompt for valid password input"
-  },
   "update": "Update",
   "@update": {
     "description": "Label for update action"
@@ -215,7 +246,7 @@
   "vip": "VIP",
   "@vip": {
     "description": "Label for VIP section"
-  }, 
+  },
   "waitingPayment": "Waiting payment...",
   "@waitingPayment": {
     "description": "Label for waiting payment state"

@@ -62,7 +62,8 @@ import 'app_localizations_zh.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -70,7 +71,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,17 +84,18 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('zh')
+    Locale('zh'),
   ];
 
   /// Label for about section
@@ -142,6 +145,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm Password'**
   String get confirmPassword;
+
+  /// Contact email display text with email parameter
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Email: {email}'**
+  String contactEmail(String email);
+
+  /// Contact us label
+  ///
+  /// In en, this message translates to:
+  /// **'Contact us'**
+  String get contactUsPlease;
 
   /// Label for copy to clipboard action
   ///
@@ -287,6 +302,12 @@ abstract class AppLocalizations {
   /// **'Or login with those accounts'**
   String get orLoginWithThose;
 
+  /// Label for paid successful
+  ///
+  /// In en, this message translates to:
+  /// **'Paid Successful!'**
+  String get paidSuccessful;
+
   /// Label for password field
   ///
   /// In en, this message translates to:
@@ -299,11 +320,47 @@ abstract class AppLocalizations {
   /// **'Pay'**
   String get pay;
 
-  /// Label for paid successful
+  /// payment total amount in currency
   ///
   /// In en, this message translates to:
-  /// **'Paid Successful!'**
-  String get paidSuccessful;
+  /// **'Payment total: {PriceUnitAmount} {PriceCurrency}'**
+  String paymentAmountTotal(double PriceUnitAmount, String PriceCurrency);
+
+  /// No description provided for @paymentStatusCheckTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment status check timeout'**
+  String get paymentStatusCheckTimeout;
+
+  /// Prompt for email address input
+  ///
+  /// In en, this message translates to:
+  /// **'Please input email address'**
+  String get pleaseInputEmailAddress;
+
+  /// Prompt for password input
+  ///
+  /// In en, this message translates to:
+  /// **'Please input password'**
+  String get pleaseInputPassword;
+
+  /// Prompt for valid email address input
+  ///
+  /// In en, this message translates to:
+  /// **'Please input valid email address'**
+  String get pleaseInputValidEmailAddress;
+
+  /// Prompt for valid password input
+  ///
+  /// In en, this message translates to:
+  /// **'Please input valid password'**
+  String get pleaseInputValidPassword;
+
+  /// No description provided for @priceOrProductNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Price or Product not found'**
+  String get priceOrProductNotFound;
 
   /// Label for pricing section
   ///
@@ -316,6 +373,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Register'**
   String get register;
+
+  /// Reopen payment page link label
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen payment page'**
+  String get reopenPaymentPage;
 
   /// Label for retry action
   ///
@@ -377,30 +440,6 @@ abstract class AppLocalizations {
   /// **'Theme'**
   String get theme;
 
-  /// Prompt for email address input
-  ///
-  /// In en, this message translates to:
-  /// **'Please input email address'**
-  String get pleaseInputEmailAddress;
-
-  /// Prompt for valid email address input
-  ///
-  /// In en, this message translates to:
-  /// **'Please input valid email address'**
-  String get pleaseInputValidEmailAddress;
-
-  /// Prompt for password input
-  ///
-  /// In en, this message translates to:
-  /// **'Please input password'**
-  String get pleaseInputPassword;
-
-  /// Prompt for valid password input
-  ///
-  /// In en, this message translates to:
-  /// **'Please input valid password'**
-  String get pleaseInputValidPassword;
-
   /// Label for update action
   ///
   /// In en, this message translates to:
@@ -432,7 +471,8 @@ abstract class AppLocalizations {
   String get yes;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -441,25 +481,26 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AppLocalizationsEn();
-    case 'zh': return AppLocalizationsZh();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'zh':
+      return AppLocalizationsZh();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
+    'that was used.',
   );
 }

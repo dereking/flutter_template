@@ -33,6 +33,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get confirmPassword => '确认密码';
 
   @override
+  String contactEmail(String email) {
+    return '联系方式: $email';
+  }
+
+  @override
+  String get contactUsPlease => '联系我们';
+
+  @override
   String get copyToClipboard => '复制到剪贴板';
 
   @override
@@ -105,19 +113,45 @@ class AppLocalizationsZh extends AppLocalizations {
   String get orLoginWithThose => '或使用以下方式登录';
 
   @override
+  String get paidSuccessful => '支付成功!';
+
+  @override
   String get password => '密码';
 
   @override
   String get pay => '支付';
 
   @override
-  String get paidSuccessful => '支付成功!';
+  String paymentAmountTotal(double PriceUnitAmount, String PriceCurrency) {
+    return '支付金额: $PriceUnitAmount $PriceCurrency';
+  }
+
+  @override
+  String get paymentStatusCheckTimeout => 'Payment status check timeout';
+
+  @override
+  String get pleaseInputEmailAddress => '请输入邮箱';
+
+  @override
+  String get pleaseInputPassword => '请输入密码';
+
+  @override
+  String get pleaseInputValidEmailAddress => '请输入有效的邮箱';
+
+  @override
+  String get pleaseInputValidPassword => '请输入有效的密码';
+
+  @override
+  String get priceOrProductNotFound => 'Price or Product not found';
 
   @override
   String get pricing => '定价';
 
   @override
   String get register => '注册';
+
+  @override
+  String get reopenPaymentPage => '重新打开支付页面';
 
   @override
   String get retry => '重试';
@@ -148,18 +182,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get theme => '主题';
-
-  @override
-  String get pleaseInputEmailAddress => '请输入邮箱';
-
-  @override
-  String get pleaseInputValidEmailAddress => '请输入有效的邮箱';
-
-  @override
-  String get pleaseInputPassword => '请输入密码';
-
-  @override
-  String get pleaseInputValidPassword => '请输入有效的密码';
 
   @override
   String get update => '更新';

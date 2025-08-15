@@ -7,12 +7,12 @@ import 'package:flutter_template/models/stripe/product.dart';
 import 'package:flutter_template/services/backend_service.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+// import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../components/global_snackbar.dart';
 import '../../components/line_button.dart';
+import '../../config.dart';
 import '../../logger.dart';
-import '../../models/stripe/checkout_session.dart';
 import '../../models/stripe/price.dart';
 import '../../providers/user_provider.dart';
 import '../../services/stripe_service.dart';
@@ -35,13 +35,12 @@ class _PaymentPageState extends State<PaymentPage> {
 
   // bool _isProcessing = false;
 
-  Future<bool>? _futureData;
-  Price? _price;
-  Product? _product;
+  Future<bool>? _futureLoadProductData;
+
   CheckoutSessionCreateRes? _session;
 
-  //
-  WebSocketChannel? channel;
+  Price? _price;
+  Product? _product;
 
   // Timer? heartbeatTimer;
   // Duration timeout = Duration(seconds: 30);
@@ -60,16 +59,15 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     super.initState();
-    _futureData = _loadData();
+    _futureLoadProductData = _loadProductInfo();
   }
 
   @override
   void dispose() {
-    channel?.sink.close();
     super.dispose();
   }
 
-  Future<bool> _loadData() async {
+  Future<bool> _loadProductInfo() async {
     final pro = Provider.of<UserProvider>(context, listen: false);
     final priceId = pro.toBuyPriceId;
 
@@ -99,7 +97,7 @@ class _PaymentPageState extends State<PaymentPage> {
   void _reloadData() {
     setState(() {
       // 创建一个新的 Future 对象
-      _futureData = _loadData();
+      _futureLoadProductData = _loadProductInfo();
     });
   }
 
@@ -111,7 +109,7 @@ class _PaymentPageState extends State<PaymentPage> {
     }
 
     return FutureBuilder<bool>(
-      future: _futureData,
+      future: _futureLoadProductData,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -125,8 +123,8 @@ class _PaymentPageState extends State<PaymentPage> {
             child: Column(
               children: [
                 Text('Error: ${snapshot.error}'),
-                Text('请联系管理员'),
-                Text('管理员邮箱: support@example.com'),
+                Text(AppLocalizations.of(context)!.contactUsPlease),
+                Text(AppLocalizations.of(context)!.contactEmail(adminEmail)),
                 IconButton(
                   onPressed: () {
                     _reloadData();
@@ -138,7 +136,9 @@ class _PaymentPageState extends State<PaymentPage> {
           );
         } else {
           if (snapshot.data == false) {
-            return Center(child: Text('Price or Product not found'));
+            return Center(
+              child: Text(AppLocalizations.of(context)!.priceOrProductNotFound),
+            );
           }
 
           return Center(
@@ -161,10 +161,13 @@ class _PaymentPageState extends State<PaymentPage> {
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     Text(
-                      '支付金额: ${_price!.unit_amount / 100} ${_price!.currency}',
+                      AppLocalizations.of(context)!.paymentAmountTotal(
+                        _price!.unit_amount / 100,
+                        _price!.currency,
+                      ),
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
-                    const Text('支付方式: stripe'),
+
                     Expanded(child: Container()),
                     Divider(),
                     if (payError != null)
@@ -187,7 +190,7 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   List<Widget> _buildButtonsUnknown() {
-    return [ 
+    return [
       LineButton(
         onPress: () => handlePayment(context, _price!),
         isLoading: false,
@@ -198,7 +201,7 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   List<Widget> _buildButtonsOpening() {
-    return [ 
+    return [
       LineButton(
         onPress: () => handlePayment(context, _price!),
         isLoading: true,
@@ -209,13 +212,13 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   List<Widget> _buildButtonsWaiting() {
-    return [ 
-        TextButton(
-          onPressed: () {
-            launchMyUrl(_session!.url);
-          },
-          child: Text("重新打开支付页面"),
-        ), 
+    return [
+      TextButton(
+        onPressed: () {
+          launchMyUrl(_session!.url);
+        },
+        child: Text(AppLocalizations.of(context)!.reopenPaymentPage),
+      ),
 
       LineButton(
         onPress: () => handlePayment(context, _price!),
@@ -228,9 +231,9 @@ class _PaymentPageState extends State<PaymentPage> {
 
   List<Widget> _buildButtonsPaid() {
     return [ 
-      if (payState == PayState.paid)
-        Text(AppLocalizations.of(context)!.paidSuccessful),
- 
+      Icon(Icons.check,size:48, color: Colors.green,),
+        Text(AppLocalizations.of(context)!.paidSuccessful, style: TextStyle(fontSize: 24),),
+        SizedBox(height: 15,),
     ];
   }
 
@@ -245,6 +248,7 @@ class _PaymentPageState extends State<PaymentPage> {
     try {
       setState(() {
         payState = PayState.opening;
+        payError = null;
       });
 
       // 启动检查支付状态。
@@ -255,8 +259,7 @@ class _PaymentPageState extends State<PaymentPage> {
       final session = await StripeService().createCheckoutSession(
         await BackendService.instance.token ?? "",
         pro.userSession?.email ?? '',
-        pro.referenceId,
-        //  pro.reference!,
+        pro.referenceId, 
         price.id,
         price.type,
         1,
@@ -327,8 +330,11 @@ class _PaymentPageState extends State<PaymentPage> {
       // 检查是否超过最大检查次数
       if (_currentCheckCount >= _maxCheckCount) {
         timer.cancel();
+        setState(() {
+          payError = AppLocalizations.of(context)!.paymentStatusCheckTimeout;
+        });
         GlobalSnackbar.show(
-          message: "支付状态查询超时",
+          message: payError ?? "",
           icon: Icons.error,
           backgroundColor: Colors.orange,
         );
@@ -365,11 +371,15 @@ class _PaymentPageState extends State<PaymentPage> {
         setState(() {
           payState = PayState.paid;
         });
-        GlobalSnackbar.show(
-          message: "支付成功",
-          icon: Icons.check_circle,
-          backgroundColor: Colors.green,
-        );
+
+        if (mounted) {
+          GlobalSnackbar.show(
+            message: AppLocalizations.of(context)!.paidSuccessful,
+
+            icon: Icons.check_circle,
+            backgroundColor: Colors.green,
+          );
+        }
       } else if (status == "unpaid") {
         print("unpaid");
       } else if (status == "no_payment_required") {
