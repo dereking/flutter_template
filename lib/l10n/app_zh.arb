@@ -117,6 +117,7 @@
   "@moreAction": {
     "description": "更多操作菜单"
   },
+  "myOrder": "My Order",
   "mySubscription": "我的订阅",
   "@mySubscription": {
     "description": "我的订阅菜单"
@@ -187,6 +188,7 @@
   "@pricing": {
     "description": "定价页面标题"
   },
+  "purchase": "Purchase",
   "register": "注册",
   "@register": {
     "description": "注册操作按钮"

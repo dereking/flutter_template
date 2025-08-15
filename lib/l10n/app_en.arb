@@ -117,6 +117,7 @@
   "@moreAction": {
     "description": "Label for more actions menu"
   },
+  "myOrder": "My Order",
   "mySubscription": "My Subscription",
   "@mySubscription": {
     "description": "Label for my subscription menu item"
@@ -187,6 +188,7 @@
   "@pricing": {
     "description": "Label for pricing section"
   },
+  "purchase": "Purchase",
   "register": "Register",
   "@register": {
     "description": "Label for register action"

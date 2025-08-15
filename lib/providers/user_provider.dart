@@ -36,6 +36,8 @@ class UserProvider extends ChangeNotifier {
 
   /// 选中想购买的 priceID
   String? toBuyPriceId;
+  int toBuyAmount=1;
+
   String referenceId = "";
 
   // 当前页面

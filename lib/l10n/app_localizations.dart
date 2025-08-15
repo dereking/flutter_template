@@ -266,6 +266,12 @@ abstract class AppLocalizations {
   /// **'More Actions'**
   String get moreAction;
 
+  /// No description provided for @myOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'My Order'**
+  String get myOrder;
+
   /// Label for my subscription menu item
   ///
   /// In en, this message translates to:
@@ -367,6 +373,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pricing'**
   String get pricing;
+
+  /// No description provided for @purchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase'**
+  String get purchase;
 
   /// Label for register action
   ///

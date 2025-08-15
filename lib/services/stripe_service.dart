@@ -1,13 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter_template/models/stripe/checkout_session_create_res.dart';
-import 'package:http/http.dart' as http;
-import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:http/http.dart' as http; 
 
 import '../config.dart';
-import '../logger.dart';
-import '../models/stripe/checkout_session.dart';
-import '../models/stripe/payment_websocket_message.dart';
+import '../logger.dart';  
 import '../models/stripe/price.dart';
 import '../models/stripe/product.dart';
 
@@ -82,19 +79,49 @@ class StripeService {
     }
   }
 
-  Future<String> getCheckoutSessionStatus(
+  Future<List<Price>?> getPricesOfProduct(
     String token,
-    String sessionId,
-  ) async { 
+    String productId,
+  ) async {
+    print("getPricesOfProduct: $stripeMyHostBaseUrl/info/prices/$productId");
 
     final response = await http.get(
-      Uri.parse('$stripeMyHostBaseUrl/stripe/session_status/$sessionId'),
+      Uri.parse('$stripeMyHostBaseUrl/info/prices/$productId'),
       headers: {'Authorization': 'Bearer $token'},
     );
 
-    // logger.d(
-    //   "getCheckoutSessionStatus ${response.statusCode}, ${response.body}",
-    // );
+    // logger.d("getPricesOfProduct ${response.statusCode}, ${response.body}");
+
+    if (response.statusCode == 200) {
+      logger.d(json.decode(response.body)['data']['data']);
+
+      final priceList =
+          json.decode(response.body)['data']['data']
+              ;
+      logger.d("getPricesOfProduct priceList=$priceList");
+
+      final prices = <Price>[];
+      for (var p in priceList) {
+        final price = Price.fromJson(p);
+        // final price = serializers.deserializeWith<Price>(Price.serializer, json.decode(response.body));
+        // print("getPrices: $price");
+        prices.add(price);
+      }
+      return prices;
+    } else {
+      throw Exception('Failed to load price ');
+    }
+  }
+
+  Future<String> getCheckoutSessionStatus(
+    String token,
+    String sessionId,
+  ) async {
+    final response = await http.get(
+      Uri.parse('$stripeMyHostBaseUrl/stripe/session_status/$sessionId'),
+      headers: {'Authorization': 'Bearer $token'},
+    ); 
+ 
 
     if (response.statusCode == 200) {
       final status = json.decode(response.body)['status'];
@@ -114,7 +141,7 @@ class StripeService {
     String priceType,
     int quantity,
   ) async {
-    String mode = (priceType == 'one_time') ? "payment" : "recurring";
+    String mode = (priceType == 'one_time') ? "payment" : "subscription";
 
     final response = await http.put(
       Uri.parse(
@@ -128,9 +155,10 @@ class StripeService {
     );
 
     if (response.statusCode == 200) {
-      final session = CheckoutSessionCreateRes.fromJson(json.decode(response.body));
+      final session = CheckoutSessionCreateRes.fromJson(
+        json.decode(response.body),
+      );
       logger.d("createCheckoutSession: $session");
-
 
       return session;
     } else {
@@ -138,23 +166,5 @@ class StripeService {
       return null;
     }
   }
-
-  WebSocketChannel createPaymentWebSocketChannel(
-    String referenceId,
-    void Function(PaymentWebsocketMessage) onData,
-  ) {
-    // 建立 WebSocket 连接
-    final channel = WebSocketChannel.connect(
-      Uri.parse("$stripeMyHostBaseUrl/stripe/websocket/$referenceId"),
-    );
-
-    // 监听消息
-    channel.stream.listen((dat) {
-      final message = PaymentWebsocketMessage.fromJson(json.decode(dat));
-      onData(message);
-    });
-
-    return channel;
-  }
-
+ 
 }

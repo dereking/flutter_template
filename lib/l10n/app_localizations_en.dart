@@ -96,6 +96,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moreAction => 'More Actions';
 
   @override
+  String get myOrder => 'My Order';
+
+  @override
   String get mySubscription => 'My Subscription';
 
   @override
@@ -147,6 +150,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pricing => 'Pricing';
+
+  @override
+  String get purchase => 'Purchase';
 
   @override
   String get register => 'Register';

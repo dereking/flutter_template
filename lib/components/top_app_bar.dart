@@ -114,7 +114,7 @@ class _TopAppBarState extends State<TopAppBar> {
               Provider.of<UserProvider>(
                 context,
                 listen: false,
-              ).navigateTo("/plans");
+              ).navigateTo("/myOrder");
             },
           ),
           MiniIconButton(

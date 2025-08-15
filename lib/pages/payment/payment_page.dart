@@ -192,7 +192,11 @@ class _PaymentPageState extends State<PaymentPage> {
   List<Widget> _buildButtonsUnknown() {
     return [
       LineButton(
-        onPress: () => handlePayment(context, _price!),
+        onPress: () => handlePayment(
+          context,
+          _price!,
+          Provider.of<UserProvider>(context, listen: false).toBuyAmount,
+        ),
         isLoading: false,
         loadingText: AppLocalizations.of(context)!.waitingPayment,
         text: AppLocalizations.of(context)!.pay,
@@ -203,7 +207,11 @@ class _PaymentPageState extends State<PaymentPage> {
   List<Widget> _buildButtonsOpening() {
     return [
       LineButton(
-        onPress: () => handlePayment(context, _price!),
+        onPress: () => handlePayment(
+          context,
+          _price!,
+          Provider.of<UserProvider>(context, listen: false).toBuyAmount,
+        ),
         isLoading: true,
         loadingText: AppLocalizations.of(context)!.waitingPayment,
         text: AppLocalizations.of(context)!.pay,
@@ -221,7 +229,11 @@ class _PaymentPageState extends State<PaymentPage> {
       ),
 
       LineButton(
-        onPress: () => handlePayment(context, _price!),
+        onPress: () => handlePayment(
+          context,
+          _price!,
+          Provider.of<UserProvider>(context, listen: false).toBuyAmount,
+        ),
         isLoading: true,
         loadingText: AppLocalizations.of(context)!.waitingPayment,
         text: AppLocalizations.of(context)!.pay,
@@ -230,10 +242,26 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   List<Widget> _buildButtonsPaid() {
-    return [ 
-      Icon(Icons.check,size:48, color: Colors.green,),
-        Text(AppLocalizations.of(context)!.paidSuccessful, style: TextStyle(fontSize: 24),),
-        SizedBox(height: 15,),
+    return [
+      Icon(Icons.check, size: 48, color: Colors.green),
+      Text(
+        AppLocalizations.of(context)!.paidSuccessful,
+        style: TextStyle(fontSize: 24),
+      ),
+      TextButton(
+        onPressed: () {
+          Provider.of<UserProvider>(
+            context,
+            listen: false,
+          ).navigateTo("/myOrder");
+        },
+        child: Text(
+          AppLocalizations.of(context)!.myOrder,
+          // AppLocalizations.of(context)!.myOrder,
+          style: TextStyle(decoration: TextDecoration.underline),
+        ),
+      ),
+      SizedBox(height: 15),
     ];
   }
 
@@ -241,7 +269,11 @@ class _PaymentPageState extends State<PaymentPage> {
     Provider.of<UserProvider>(context).navigateTo("/paid");
   }
 
-  Future<void> handlePayment(BuildContext context, Price price) async {
+  Future<void> handlePayment(
+    BuildContext context,
+    Price price,
+    int amount,
+  ) async {
     if (payState != PayState.unknown) {
       return;
     }
@@ -259,10 +291,10 @@ class _PaymentPageState extends State<PaymentPage> {
       final session = await StripeService().createCheckoutSession(
         await BackendService.instance.token ?? "",
         pro.userSession?.email ?? '',
-        pro.referenceId, 
+        pro.referenceId,
         price.id,
         price.type,
-        1,
+        amount,
       );
 
       if (session == null) {
@@ -332,6 +364,7 @@ class _PaymentPageState extends State<PaymentPage> {
         timer.cancel();
         setState(() {
           payError = AppLocalizations.of(context)!.paymentStatusCheckTimeout;
+          payState = PayState.unknown;
         });
         GlobalSnackbar.show(
           message: payError ?? "",

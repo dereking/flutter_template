@@ -95,6 +95,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get moreAction => '更多操作';
 
   @override
+  String get myOrder => 'My Order';
+
+  @override
   String get mySubscription => '我的订阅';
 
   @override
@@ -146,6 +149,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get pricing => '定价';
+
+  @override
+  String get purchase => 'Purchase';
 
   @override
   String get register => '注册';
