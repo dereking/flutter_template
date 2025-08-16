@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter_template/models/stripe/checkout_session_create_res.dart';
-import 'package:http/http.dart' as http; 
+import 'package:http/http.dart' as http;
 
 import '../config.dart';
-import '../logger.dart';  
+import '../logger.dart';
+import '../models/finance/app_order.dart';
 import '../models/stripe/price.dart';
 import '../models/stripe/product.dart';
 
@@ -32,6 +33,55 @@ class StripeService {
     // Stripe.setReturnUrlSchemeOnAndroid = true;
 
     // await Stripe.instance.applySettings();
+  }
+
+  Future<List<AppOrder>> getMyOrdersOfProduct(
+    String token,
+    String productId,
+  ) async {
+    print("getMyOrdersOfProduct: $stripeMyHostBaseUrl/my/order/$productId");
+
+    final response = await http.get(
+      Uri.parse('$stripeMyHostBaseUrl/my/product_orders/$productId'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    logger.d("getMyOrdersOfProduct ${response.statusCode}, ${response.body}");
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body)['data'];
+      logger.d("getMyOrdersOfProduct data=$data");
+
+      final orders = (data as List)
+          .map((e) => AppOrder.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return orders;
+    } else {
+      throw Exception('Failed to getMyOrdersOfProduct');
+    }
+  }
+
+  Future<List<AppOrder>> getMyOrders(String token) async {
+    print("getMyOrders: $stripeMyHostBaseUrl/my/orders");
+
+    ///v1/my/orders
+
+    final response = await http.get(
+      Uri.parse('$stripeMyHostBaseUrl/my/orders'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    logger.d("getMyOrders ${response.statusCode}, ${response.body}");
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body)['data'];
+      logger.d("getMyOrders data=$data");
+
+      final orders = (data as List)
+          .map((e) => AppOrder.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return orders;
+    } else {
+      throw Exception('Failed to getMyOrders');
+    }
   }
 
   Future<Product?> getProduct(String token, String productId) async {
@@ -79,10 +129,7 @@ class StripeService {
     }
   }
 
-  Future<List<Price>?> getPricesOfProduct(
-    String token,
-    String productId,
-  ) async {
+  Future<List<Price>> getPricesOfProduct(String token, String productId) async {
     print("getPricesOfProduct: $stripeMyHostBaseUrl/info/prices/$productId");
 
     final response = await http.get(
@@ -95,9 +142,7 @@ class StripeService {
     if (response.statusCode == 200) {
       logger.d(json.decode(response.body)['data']['data']);
 
-      final priceList =
-          json.decode(response.body)['data']['data']
-              ;
+      final priceList = json.decode(response.body)['data']['data'];
       logger.d("getPricesOfProduct priceList=$priceList");
 
       final prices = <Price>[];
@@ -120,8 +165,7 @@ class StripeService {
     final response = await http.get(
       Uri.parse('$stripeMyHostBaseUrl/stripe/session_status/$sessionId'),
       headers: {'Authorization': 'Bearer $token'},
-    ); 
- 
+    );
 
     if (response.statusCode == 200) {
       final status = json.decode(response.body)['status'];
@@ -166,5 +210,4 @@ class StripeService {
       return null;
     }
   }
- 
 }

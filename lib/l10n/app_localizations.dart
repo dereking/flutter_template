@@ -458,6 +458,12 @@ abstract class AppLocalizations {
   /// **'Update'**
   String get update;
 
+  /// No description provided for @upgradePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade'**
+  String get upgradePlan;
+
   /// Label for version information
   ///
   /// In en, this message translates to:

@@ -241,6 +241,7 @@
   "@update": {
     "description": "更新操作按钮"
   },
+  "upgradePlan": "Upgrade",
   "version": "版本",
   "@version": {
     "description": "版本信息"

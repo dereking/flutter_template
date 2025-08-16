@@ -6,7 +6,6 @@ import '../../config.dart';
 import '../../l10n/app_localizations.dart';
 import '../../logger.dart';
 import '../../models/stripe/price.dart';
-import '../../models/stripe/product.dart';
 import '../../providers/user_provider.dart';
 import '../../services/backend_service.dart';
 import '../../services/stripe_service.dart';
@@ -19,9 +18,9 @@ class PlansPage extends StatefulWidget {
 }
 
 class _PlansPageState extends State<PlansPage> {
-  Future<List<Price>?>? _futureLoadProductData;
+  Future<List<Price>>? _futureLoadProductData;
 
-  List<Price>? _prices;
+  List<Price> _prices = [];
 
   @override
   void initState() {
@@ -38,7 +37,7 @@ class _PlansPageState extends State<PlansPage> {
   Widget build(BuildContext context) {
     return
     // 加载stripe产品信息
-    FutureBuilder<List<Price>?>(
+    FutureBuilder<List<Price>>(
       future: _futureLoadProductData,
       builder: (context, snapshot) {
         // if (snapshot.data == null) {
@@ -60,7 +59,7 @@ class _PlansPageState extends State<PlansPage> {
             Text("Plans", style: TextStyle(fontSize: 24)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: _prices!.map((e) {
+              children: _prices.map((e) {
                 return _buildPlanWidget(e, () {
                   final pro = Provider.of<UserProvider>(context, listen: false);
                   pro.toBuyPriceId = e.id;
@@ -94,7 +93,8 @@ class _PlansPageState extends State<PlansPage> {
             Text(price.nickname),
             Text(price.currency),
             Text("${price.unit_amount / 100}"),
-            Text(price.metadata['plan']),
+            if (price.metadata['plan'] != null)
+              Text(price.metadata['plan'] ?? ""),
             // 数量输入框
             if (price.metadata['plan'] != "one_time")
               Row(
@@ -128,9 +128,9 @@ class _PlansPageState extends State<PlansPage> {
               ),
             // Expanded(child: Container()),
             LineButton(
-              onPress: onPressed, 
+              onPress: onPressed,
               isLoading: false,
-              text: AppLocalizations.of(context)!.purchase, 
+              text: AppLocalizations.of(context)!.purchase,
             ),
           ],
         ),
@@ -138,16 +138,13 @@ class _PlansPageState extends State<PlansPage> {
     );
   }
 
-  Future<List<Price>?> _loadProductInfo(String prodId) async {
+  Future<List<Price>> _loadProductInfo(String prodId) async {
     final pro = Provider.of<UserProvider>(context, listen: false);
 
     _prices = await StripeService().getPricesOfProduct(
       await BackendService.instance.token ?? "",
       prodId,
     );
-    if (_prices == null) {
-      return null;
-    }
     return _prices;
   }
 

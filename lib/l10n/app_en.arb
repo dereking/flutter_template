@@ -241,6 +241,7 @@
   "@update": {
     "description": "Label for update action"
   },
+  "upgradePlan": "Upgrade",
   "version": "Version",
   "@version": {
     "description": "Label for version information"

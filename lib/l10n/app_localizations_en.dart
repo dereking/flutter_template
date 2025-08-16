@@ -194,6 +194,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get update => 'Update';
 
   @override
+  String get upgradePlan => 'Upgrade';
+
+  @override
   String get version => 'Version';
 
   @override

@@ -3,13 +3,14 @@ class AppOrder {
   String email;
   String local;
   String stripe_checkout_session;
+  String stripe_payment_intent;
   String sn;
-  double pid;
+  String pid;
   int count;
 
-  double unit_price;
+  int unit_price;
   String currency;
-  double total_price;
+  int total_price;
   DateTime ctime;
   DateTime mtime;
   String uid;
@@ -26,6 +27,7 @@ class AppOrder {
     required this.unit_price,
     required this.total_price,
     required this.stripe_checkout_session,
+    required this.stripe_payment_intent,
     required this.ctime,
     required this.mtime,
   });
@@ -39,10 +41,11 @@ class AppOrder {
       email: json['email'] ?? "",
       local: json['local'] ?? "",
       sn: json['sn'] ?? "",
-      pid: json['pid'] ?? 0,
+      pid: json['pid'] ?? "",
       unit_price: json['unit_price'] ?? 0,
       total_price: json['total_price'] ?? 0,
       stripe_checkout_session: json['stripe_checkout_session'] ?? "",
+      stripe_payment_intent: json['stripe_payment_intent'] ?? "",
       ctime: DateTime.parse(json['ctime'] ?? ""),
       mtime: DateTime.parse(json['mtime'] ?? ""),
     );

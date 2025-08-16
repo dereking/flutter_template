@@ -18,8 +18,11 @@ class Price {
   String nickname; //"nickname":"",
   String object; //"object":"price",
   Product product; //"product":
-  Recurring
-  recurring; //"recurring":{"interval":"month","interval_count":1,"meter":"","trial_period_days":0,"usage_type":"licensed"},
+
+  //"recurring":{"interval":"month","interval_count":1,"meter":"",
+  //"trial_period_days":0,"usage_type":"licensed"},
+  Recurring recurring;
+
   String tax_behavior; //"tax_behavior":"unspecified",
   String tiers; //"tiers":null,
   String tiers_mode; //"tiers_mode":"",
@@ -69,7 +72,9 @@ class Price {
       nickname: json['nickname'] ?? '',
       object: json['object'] ?? '',
       product: Product.fromJson(json['product'] is Map ? json['product'] : {}),
-      recurring: Recurring.fromJson(json['recurring'] is Map ? json['recurring'] : {}),
+      recurring: Recurring.fromJson(
+        json['recurring'] is Map ? json['recurring'] : {},
+      ),
       tax_behavior: json['tax_behavior'] ?? '',
       tiers: json['tiers']?.toString() ?? '',
       tiers_mode: json['tiers_mode'] ?? '',

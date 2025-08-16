@@ -193,6 +193,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get update => '更新';
 
   @override
+  String get upgradePlan => 'Upgrade';
+
+  @override
   String get version => '版本';
 
   @override
